@@ -1,6 +1,12 @@
 
+// associates views with their respective loader functions
+const viewLoader = {
+  characters: loadAllCharacters,
+  character: loadCharacter
+};
+
 window.addEventListener('DOMContentLoaded', event => {
-  loadAllCharacters();
+  viewLoader[data.view]();
 });
 
 function generateIcon(character) {
@@ -19,6 +25,7 @@ function generateIcon(character) {
   $charName.classList.add('character-name');
   $charName.textContent = character.name;
 
+  $icon.setAttribute('data-character-name', character.name);
   $icon.appendChild($img);
   $icon.appendChild($charName);
   $iconWrapper.appendChild($icon);
@@ -43,10 +50,44 @@ function loadAllCharacters() {
   xhr.addEventListener('load', function () {
     const characters = this.response.payload.characters;
     const $icons = document.querySelector('#icons');
+    const charactersObj = {};
     for (let character of characters) {
       const $iconWrapper = generateIcon(character);
+      saveCharacter(character, charactersObj);
       $icons.appendChild($iconWrapper);
     }
-
+    $icons.addEventListener('click', function (event) {
+      if (!event.target.matches('.icon')) {
+        return;
+      }
+      const curChar = event.target.getAttribute('data-character-name');
+      setView('character', charactersObj[curChar]);
+    });
   });
+}
+
+function saveCharacter(character, charactersObj) {
+  charactersObj[character.name] = character;
+}
+
+function loadCharacter(character) {
+  const $headline = document.querySelector('#character-name');
+  $headline.textContent = character.name;
+
+  const $element = document.querySelector('#element');
+  $element.src = `../images/elements/${character.element}.webp`;
+}
+
+function setView(newView, entry = null) {
+  const $views = document.querySelectorAll('.view');
+  for (let view of $views) {
+    if (newView === view.getAttribute('data-view')) {
+      view.classList.remove('hidden');
+    } else {
+      view.classList.add('hidden');
+    }
+  }
+  if (entry) {
+    viewLoader[newView](entry);
+  }
 }

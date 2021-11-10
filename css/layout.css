@@ -43,7 +43,6 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 10rem;
 }
 
 .icon-wrapper {
@@ -65,6 +64,22 @@ html {
   justify-content: space-around;
   align-items: center;
   padding: 1rem 1rem;
+}
+
+.portrait {
+  display: flex;
+  justify-content: center;
+}
+
+.portrait-rating {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (min-width: 700px) {
@@ -91,5 +106,9 @@ html {
 
   .black-container {
     max-width: 1100px;
+  }
+
+  .portrait-rating {
+    align-items: center;
   }
 }

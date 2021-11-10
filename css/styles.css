@@ -52,9 +52,37 @@ img {
   border-radius: 2rem;
   border: 1px solid black;
   overflow: hidden;
+  width: 10rem;
 }
 
 .character-name {
   background-color: black;
   text-align: center;
+}
+
+.icon * {
+  pointer-events: none;
+}
+
+.portrait {
+  border-radius: 100rem;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  width: 15rem;
+  height: 15rem;
+  background: no-repeat url('../images/locations/Mondstadt.jpg');
+  background-size: cover;
+}
+
+.portrait-img {
+  height: 30rem;
+  object-fit: cover;
+}
+
+.fa-star {
+  color: rgba(220, 138, 30, 1);
+}
+
+#element {
+  padding: 0.5rem;
 }
