@@ -76,6 +76,23 @@ function loadCharacter(character) {
 
   const $element = document.querySelector('#element');
   $element.src = `../images/elements/${character.element}.webp`;
+
+  if (!character.nation) {
+    character.nation = 'Unknown';
+  }
+  const $characterPortraitBg = document.querySelector('#character-portrait-bg');
+  $characterPortraitBg.style.backgroundImage = `url(../images/locations/${character.nation}.jpg)`;
+
+  const $characterPortrait = document.querySelector('#character-portrait');
+  $characterPortrait.src = character.portraitImageURL;
+
+  const $rarity = document.querySelector('#rarity');
+  for (let i = 0; i < character.rarity; i++) {
+    const $star = document.createElement('i');
+    $star.classList.add('fas');
+    $star.classList.add('fa-star');
+    $rarity.appendChild($star);
+  }
 }
 
 function setView(newView, entry = null) {

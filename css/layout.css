@@ -66,7 +66,7 @@ html {
   padding: 1rem 1rem;
 }
 
-.portrait {
+.portrait-bg {
   display: flex;
   justify-content: center;
 }
@@ -74,6 +74,7 @@ html {
 .portrait-rating {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .name-element {
@@ -106,9 +107,5 @@ html {
 
   .black-container {
     max-width: 1100px;
-  }
-
-  .portrait-rating {
-    align-items: center;
   }
 }
