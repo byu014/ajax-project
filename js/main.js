@@ -93,6 +93,9 @@ function loadCharacter(character) {
     $star.classList.add('fa-star');
     $rarity.appendChild($star);
   }
+
+  const $description = document.querySelector('#character-description');
+  $description.textContent = character.description;
 }
 
 function setView(newView, entry = null) {
