@@ -47,3 +47,9 @@ a {
   align-items: center;
   padding: 1rem 1rem;
 }
+
+.black-container {
+  border: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 3rem;
+}
