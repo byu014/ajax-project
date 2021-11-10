@@ -84,10 +84,15 @@ html {
 }
 
 .white-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 1rem;
+}
+
+.additional-info {
+  display: flex;
+}
+
+.additional-infos {
+  margin: 3rem auto;
 }
 
 @media screen and (min-width: 700px) {

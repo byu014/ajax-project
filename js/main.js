@@ -96,6 +96,21 @@ function loadCharacter(character) {
 
   const $description = document.querySelector('#character-description');
   $description.textContent = character.description;
+
+  const $visionImg = document.querySelector('#vision-img');
+  $visionImg.src = `../images/elements/${character.element}.webp`;
+  const $vision = document.querySelector('#vision');
+  $vision.innerHTML += character.element;
+
+  const $weaponImg = document.querySelector('#weapon-img');
+  $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
+  const $weapon = document.querySelector('#weapon');
+  $weapon.innerHTML += character.weaponType;
+
+  const $nationImg = document.querySelector('#nation-img');
+  $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
+  const $nation = document.querySelector('#nation');
+  $nation.innerHTML += character.nation;
 }
 
 function setView(newView, entry = null) {

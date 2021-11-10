@@ -95,3 +95,12 @@ img {
 #element {
   padding: 0.5rem;
 }
+
+.additional-info p {
+  margin: 0;
+}
+
+.additional-info img {
+  width: 1.5rem;
+  margin-left: 0.5rem;
+}
