@@ -26,6 +26,7 @@ const singularToPlural = {
 window.addEventListener('DOMContentLoaded', event => {
   viewLoader.characters();
   viewLoader.enemies();
+  viewLoader.weapons();
   setView(data.view, data.entry);
 });
 
@@ -291,6 +292,13 @@ function loadAllWeapons() {
     const $icons = document.querySelector('#weapon-icons');
     const weaponsObj = {};
     for (let weapon of weapons) {
+      if (weapon.baseAtk === 'TBA') {
+        continue;
+      }
+      if (weapon.name === 'Freedom Sworn') {
+        weapon.name = 'Freedom-Sworn';
+      }
+      weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
       const $iconWrapper = generateIcon(weapon);
       weaponsObj[weapon.name] = weapon;
       $icons.appendChild($iconWrapper);
