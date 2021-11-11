@@ -170,9 +170,10 @@ function loadCharacter(character = null) {
     $skill.classList.add('skill');
 
     const $skillImg = document.createElement('img');
+    $skillImg.classList.add('skill-img');
     $skillImg.src = iconPrefix + character.combatSkills[i].iconUrl;
-    $skillImg.style.width = '3rem';
-    $skillImg.style.height = '3rem';
+    // $skillImg.style.width = '3rem';
+    // $skillImg.style.height = '3rem';
     $skill.appendChild($skillImg);
 
     const $skillDescription = document.createElement('p');
@@ -184,14 +185,15 @@ function loadCharacter(character = null) {
     $skill.appendChild($skillDescription);
 
     const $skillGIF = document.createElement('img');
+    $skillGIF.classList.add('skill-gif');
     if (!character.combatSkills[i].variants[0].gifUrl) {
       $skillGIF.src = character.combatSkills[i].variants[1].gifUrl;
     } else {
       $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
     }
-    $skillGIF.style.width = 'calc(100% / 3)';
-    $skillGIF.style.borderRadius = '0.5rem';
-    $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
+    // $skillGIF.style.width = 'calc(100% / 3)';
+    // $skillGIF.style.borderRadius = '0.5rem';
+    // $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
     $skill.appendChild($skillGIF);
     $skills.appendChild($skill);
   }
@@ -320,60 +322,18 @@ function loadEnemy(enemy = null) {
   if (enemy.region === 'Monstadt') {
     enemy.region = 'Mondstadt';
   }
+  const $regionBG = document.querySelectorAll('.region-bg');
   if (enemy.region === 'Global' || enemy.region === 'Multiple' || !global.includes(enemy.region)) {
-    for (let region of global) {
-      const $regionBG = document.createElement('div');
-      $regionBG.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/locations/${region}.jpg)`;
-      $regionBG.style.backgroundRepeat = 'no-repeat';
-      $regionBG.style.backgroundSize = 'cover';
-      $regionBG.style.borderRadius = '0.5rem';
-      $regionBG.style.border = '1px solid rgba(255,255,255,0.3)';
-      $regionBG.style.width = '28rem';
-      $regionBG.style.height = '18rem';
-      $regionBG.style.margin = '1rem 0';
-      $regionBG.style.position = 'relative';
-      $regionBG.style.display = 'flex';
-      $regionBG.style.justifyContent = 'center';
-      $regionBG.style.alignItems = 'center';
-
-      const $nationSymbol = document.createElement('img');
-      $nationSymbol.src = `../images/nation-symbols/${region}.webp`;
-      $nationSymbol.style.width = '5rem';
-      $nationSymbol.style.height = '5rem';
-      $regionBG.appendChild($nationSymbol);
-
-      const $regionP = document.createElement('p');
-      $regionP.textContent = region;
-      $regionBG.appendChild($regionP);
-
-      $spawnLocations.appendChild($regionBG);
+    for (let region of $regionBG) {
+      region.classList.remove('.hidden');
     }
   } else {
-    const $regionBG = document.createElement('div');
-    $regionBG.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/locations/${enemy.region}.jpg)`;
-    $regionBG.style.backgroundRepeat = 'no-repeat';
-    $regionBG.style.backgroundSize = 'cover';
-    $regionBG.style.borderRadius = '0.5rem';
-    $regionBG.style.border = '1px solid rgba(255,255,255,0.3)';
-    $regionBG.style.width = '28rem';
-    $regionBG.style.height = '18rem';
-    $regionBG.style.margin = '1rem 0';
-    $regionBG.style.position = 'relative';
-    $regionBG.style.display = 'flex';
-    $regionBG.style.justifyContent = 'center';
-    $regionBG.style.alignItems = 'center';
-
-    const $nationSymbol = document.createElement('img');
-    $nationSymbol.src = `../images/nation-symbols/${enemy.region}.webp`;
-    $nationSymbol.style.width = '5rem';
-    $nationSymbol.style.height = '5rem';
-    $regionBG.appendChild($nationSymbol);
-
-    const $regionP = document.createElement('p');
-    $regionP.textContent = enemy.region;
-    $regionBG.appendChild($regionP);
-
-    $spawnLocations.appendChild($regionBG);
+    for (let region of $regionBG) {
+      if (region.getAttribute('data-spawn') === enemy.region) {
+        region.classList.remove('.hidden');
+        break;
+      }
+    }
   }
 
 }

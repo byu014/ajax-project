@@ -103,15 +103,27 @@ img {
 }
 
 .region-bg {
-  background-repeat: 'no-repeat';
-  background-size: 'cover';
-  border-radius: '0.5rem';
-  border: '1px solid rgba(255,255,255,0.3)';
-  width: '28rem';
-  height: '18rem';
-  margin: '1rem 0';
-  position: 'relative';
-  display: 'flex';
-  justify-content: 'center';
-  align-items: 'center';
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.skill-gif {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#mondstadt-spawn {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Mondstadt.jpg');
+}
+
+#liyue-spawn {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Liyue.jpg');
+}
+
+#inazuma-spawn {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Inazuma.jpg');
+}
+
+#dragonspine-spawn {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Dragonspine.jpg');
 }
