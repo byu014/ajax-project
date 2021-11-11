@@ -39,6 +39,11 @@ html {
   padding: 2rem 5rem;
 }
 
+.black-container .col-half,
+.black-container .col-full {
+  margin: 1rem 0;
+}
+
 .icon {
   display: flex;
   flex-direction: column;
@@ -98,7 +103,6 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
 }
 
 .white-container {
