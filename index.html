@@ -11,6 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&
     family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -22,17 +23,17 @@
         <div class="col-half logo">
           <p class="heading shadow">Archonic</p>
         </div>
-        <div class="col-half navs">
-          <a href="" class="nav shadow" id="home-nav">
+        <div class="col-half navs" id="navs">
+          <a href="" class="nav shadow" id="home-nav" data-view="home">
             Home
           </a>
-          <a href="" class="nav shadow active" id="characters-nav">
+          <a href="" class="nav shadow active" id="characters-nav" data-view="characters">
             Characters
           </a>
-          <a href="" class="nav shadow" id="enemies-nav">
+          <a href="" class="nav shadow" id="enemies-nav" data-view="enemies">
             Enemies
           </a>
-          <a href="" class="nav shadow" id="weapons-nav">
+          <a href="" class="nav shadow" id="weapons-nav" data-view="weapons">
             Weapons
           </a>
         </div>
@@ -53,6 +54,36 @@
                 <!-- icons generated using JS go here div.icon-wrapper -->
               </div>
             </div>
+        </div>
+      </div>
+
+      <div class="view hidden" data-view="character">
+        <div class="black-container">
+          <div class="row">
+            <div class="col-full name-element">
+              <p class="heading content-headline shadow" id="character-name"></p>
+              <img id="element" alt="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-half portrait-rating">
+              <div class="portrait-bg" id="character-portrait-bg">
+                <img class="portrait-img"  alt="" id="character-portrait">
+              </div>
+              <p id="rarity"></p>
+            </div>
+            <div class="col-half">
+              <div class="white-container">
+                <p id="character-description"></p>
+                <div class="additional-infos" id="character-additional-infos">
+                  <!-- additional info go here -->
+                </div>
+                <div id="skills" class="skills">
+                  <!-- individual skill goes here -->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

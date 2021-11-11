@@ -36,14 +36,13 @@ html {
   display: flex;
   flex-direction: column;
   margin: 5rem auto;
-  padding: 0 5rem;
+  padding: 2rem 5rem;
 }
 
 .icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 10rem;
 }
 
 .icon-wrapper {
@@ -67,7 +66,52 @@ html {
   padding: 1rem 1rem;
 }
 
-@media screen and (min-width: 700px) {
+.portrait-bg {
+  display: flex;
+  justify-content: center;
+}
+
+.portrait-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.name-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.white-container {
+  padding: 1rem;
+}
+
+.additional-info {
+  display: flex;
+}
+
+.additional-infos {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem auto;
+}
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skill {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (min-width: 900px) {
   .container {
     max-width: 1920px;
   }
@@ -90,6 +134,6 @@ html {
   }
 
   .black-container {
-    max-width: 1100px;
+    max-width: 1304px;
   }
 }
