@@ -12,7 +12,8 @@ $navs.addEventListener('click', function (event) {
 const viewLoader = {
   characters: loadAllCharacters,
   character: loadCharacter,
-  enemies: loadAllEnemies
+  enemies: loadAllEnemies,
+  enemy: loadEnemy
 };
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -209,6 +210,7 @@ function setView(newView, entry = null) {
 
 function cleanUp() {
   cleanUpCharacter();
+  cleanUpEnemy();
 }
 function cleanUpCharacter() {
   const $additionalInfos = document.querySelector('#character-additional-infos');
@@ -221,27 +223,74 @@ function cleanUpCharacter() {
   $rarity.innerHTML = '';
 }
 
+function cleanUpEnemy() {
+  const $spawnLocations = document.querySelector('#spawn-locations');
+  $spawnLocations.innerHTML = '';
+}
+
 function loadAllEnemies() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/enemies');
+  xhr.open('GET', 'https://api.genshin.dev/enemies/');
   xhr.responseType = 'json';
   xhr.send();
   xhr.addEventListener('load', function () {
-    const enemies = this.response.payload.enemies;
+    const enemies = this.response;
     const $icons = document.querySelector('#enemy-icons');
     const enemiesObj = {};
-    for (let enemy of enemies) {
-      const $iconWrapper = generateIcon(enemy);
-      enemiesObj[enemy.name] = enemy;
-      $icons.appendChild($iconWrapper);
+    for (let i = 0; i < enemies.length; i++) {
+      let enemy = enemies[i];
+      let xhr2 = new XMLHttpRequest();
+      xhr2.open('GET', 'https://api.genshin.dev/enemies/' + enemy);
+      xhr2.responseType = 'json';
+      xhr2.send();
+      xhr2.addEventListener('load', function () {
+        enemy = this.response;
+        enemy.iconUrl = `https://api.genshin.dev/enemies/${enemy.id}/icon`;
+        if (!enemy.name) {
+          enemy.name = enemy.id[0].toUpperCase() + enemy.id.slice(1);
+        }
+        const $iconWrapper = generateIcon(enemy);
+        enemiesObj[enemy.name] = enemy;
+        $icons.appendChild($iconWrapper);
+      });
     }
     $icons.addEventListener('click', function (event) {
       if (!event.target.matches('.icon')) {
         return;
       }
-      const curEnemy = event.target.getAttribute('data-enemy-name');
+      const curEnemy = event.target.getAttribute('data-entry-name');
       data.entry = enemiesObj[curEnemy];
       setView('enemy', enemiesObj[curEnemy]);
     });
   });
+}
+
+function loadEnemy(enemy = null) {
+  const $headline = document.querySelector('#enemy-name');
+  $headline.textContent = enemy.name;
+
+  const $enemyPortraitBg = document.querySelector('#enemy-portrait-bg');
+  $enemyPortraitBg.style.backgroundImage = 'url(../images/locations/enemies.jpg)';
+
+  const $enemyPortrait = document.querySelector('#enemy-portrait');
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `https://api.genshin.dev/enemies/${enemy.id}/portrait`);
+  xhr.responseType = 'blob';
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    if (this.response.type === 'image/webp') {
+      $enemyPortrait.src = `https://api.genshin.dev/enemies/${enemy.id}/portrait`;
+    } else {
+      $enemyPortrait.src = `https://api.genshin.dev/enemies/${enemy.id}/icon`;
+    }
+  });
+
+  const $enemyDescription = document.querySelector('#enemy-description');
+  $enemyDescription.textContent = enemy.description;
+
+  const $spawnLocations = document.querySelector('#spawn-locations');
+  const $spawnLocationsHeadline = document.createElement('p');
+  $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
+  $spawnLocations.appendChild($spawnLocationsHeadline);
+
 }

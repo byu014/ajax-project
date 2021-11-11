@@ -74,9 +74,18 @@ html {
   height: 30rem;
 }
 
+.small-portrait-bg {
+  width: 20rem;
+  height: 20rem;
+}
+
 .portrait-img {
   height: 40rem;
   object-fit: cover;
+}
+
+.small-portrait-img {
+  height: 20rem;
 }
 
 .portrait-rating {
@@ -116,6 +125,12 @@ html {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.spawn-locations {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
