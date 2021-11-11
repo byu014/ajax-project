@@ -114,16 +114,20 @@ img {
 
 #mondstadt-spawn {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Mondstadt.jpg');
+  background-size: cover;
 }
 
 #liyue-spawn {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Liyue.jpg');
+  background-size: cover;
 }
 
 #inazuma-spawn {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Inazuma.jpg');
+  background-size: cover;
 }
 
 #dragonspine-spawn {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Dragonspine.jpg');
+  background-size: cover;
 }

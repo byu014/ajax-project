@@ -241,9 +241,10 @@ function cleanUpCharacter() {
 }
 
 function cleanUpEnemy() {
-  const $spawnLocations = document.querySelector('#spawn-locations');
-  $spawnLocations.innerHTML = '';
-
+  const $regionBG = document.querySelectorAll('.region-bg');
+  for (let region of $regionBG) {
+    region.classList.add('hidden');
+  }
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   $enemyPortrait.src = '';
 }
@@ -313,10 +314,10 @@ function loadEnemy(enemy = null) {
   } else {
     $enemyDescription.textContent = enemy.descriptions[0].description;
   }
-  const $spawnLocations = document.querySelector('#spawn-locations');
-  const $spawnLocationsHeadline = document.createElement('p');
-  $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
-  $spawnLocations.appendChild($spawnLocationsHeadline);
+  // const $spawnLocations = document.querySelector('#spawn-locations');
+  // const $spawnLocationsHeadline = document.createElement('p');
+  // $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
+  // $spawnLocations.appendChild($spawnLocationsHeadline);
 
   let global = ['Mondstadt', 'Liyue', 'Inazuma', 'Dragonspine'];
   if (enemy.region === 'Monstadt') {
@@ -325,12 +326,12 @@ function loadEnemy(enemy = null) {
   const $regionBG = document.querySelectorAll('.region-bg');
   if (enemy.region === 'Global' || enemy.region === 'Multiple' || !global.includes(enemy.region)) {
     for (let region of $regionBG) {
-      region.classList.remove('.hidden');
+      region.classList.remove('hidden');
     }
   } else {
     for (let region of $regionBG) {
       if (region.getAttribute('data-spawn') === enemy.region) {
-        region.classList.remove('.hidden');
+        region.classList.remove('hidden');
         break;
       }
     }
