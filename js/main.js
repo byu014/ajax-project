@@ -13,7 +13,8 @@ const viewLoader = {
   characters: loadAllCharacters,
   character: loadCharacter,
   enemies: loadAllEnemies,
-  enemy: loadEnemy
+  enemy: loadEnemy,
+  weapons: loadAllWeapons
 };
 
 const singularToPlural = {
@@ -25,6 +26,7 @@ const singularToPlural = {
 window.addEventListener('DOMContentLoaded', event => {
   viewLoader.characters();
   viewLoader.enemies();
+  viewLoader.weapons();
   setView(data.view, data.entry);
 });
 
@@ -172,8 +174,6 @@ function loadCharacter(character = null) {
     const $skillImg = document.createElement('img');
     $skillImg.classList.add('skill-img');
     $skillImg.src = iconPrefix + character.combatSkills[i].iconUrl;
-    // $skillImg.style.width = '3rem';
-    // $skillImg.style.height = '3rem';
     $skill.appendChild($skillImg);
 
     const $skillDescription = document.createElement('p');
@@ -191,62 +191,9 @@ function loadCharacter(character = null) {
     } else {
       $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
     }
-    // $skillGIF.style.width = 'calc(100% / 3)';
-    // $skillGIF.style.borderRadius = '0.5rem';
-    // $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
     $skill.appendChild($skillGIF);
     $skills.appendChild($skill);
   }
-}
-
-function setView(newView, entry = null) {
-  const $views = document.querySelectorAll('.view');
-  for (let view of $views) {
-    if (newView === view.getAttribute('data-view')) {
-      data.view = newView;
-      view.classList.remove('hidden');
-    } else {
-      view.classList.add('hidden');
-    }
-  }
-  const $navs = document.querySelectorAll('.nav');
-  for (let nav of $navs) {
-    if (newView === nav.getAttribute('data-view') || singularToPlural[newView] === nav.getAttribute('data-view')) {
-      nav.classList.add('active');
-    } else {
-      nav.classList.remove('active');
-
-    }
-  }
-  cleanUp();
-  if (entry) {
-    viewLoader[newView](entry);
-  }
-}
-
-function cleanUp() {
-  cleanUpCharacter();
-  cleanUpEnemy();
-}
-
-function cleanUpCharacter() {
-  const $additionalInfos = document.querySelector('#character-additional-infos');
-  $additionalInfos.innerHTML = '';
-
-  const $skills = document.querySelector('#skills');
-  $skills.innerHTML = '';
-
-  const $rarity = document.querySelector('#rarity');
-  $rarity.innerHTML = '';
-}
-
-function cleanUpEnemy() {
-  const $regionBG = document.querySelectorAll('.region-bg');
-  for (let region of $regionBG) {
-    region.classList.add('hidden');
-  }
-  const $enemyPortrait = document.querySelector('#enemy-portrait');
-  $enemyPortrait.src = '';
 }
 
 function loadAllEnemies() {
@@ -314,10 +261,6 @@ function loadEnemy(enemy = null) {
   } else {
     $enemyDescription.textContent = enemy.descriptions[0].description;
   }
-  // const $spawnLocations = document.querySelector('#spawn-locations');
-  // const $spawnLocationsHeadline = document.createElement('p');
-  // $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
-  // $spawnLocations.appendChild($spawnLocationsHeadline);
 
   let global = ['Mondstadt', 'Liyue', 'Inazuma', 'Dragonspine'];
   if (enemy.region === 'Monstadt') {
@@ -337,4 +280,86 @@ function loadEnemy(enemy = null) {
     }
   }
 
+}
+
+function loadAllWeapons() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/weapons?infoDataSize=all');
+  xhr.responseType = 'json';
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    const weapons = this.response.payload.weapons;
+    const $icons = document.querySelector('#weapon-icons');
+    const weaponsObj = {};
+    for (let weapon of weapons) {
+      if (weapon.baseAtk === 'TBA') {
+        continue;
+      }
+      if (weapon.name === 'Freedom Sworn') {
+        weapon.name = 'Freedom-Sworn';
+      }
+      weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
+      const $iconWrapper = generateIcon(weapon);
+      weaponsObj[weapon.name] = weapon;
+      $icons.appendChild($iconWrapper);
+    }
+    $icons.addEventListener('click', function (event) {
+      if (!event.target.matches('.icon')) {
+        return;
+      }
+      const curWeap = event.target.getAttribute('data-entry-name');
+      data.entry = weaponsObj[curWeap];
+      setView('weapon', weaponsObj[curWeap]);
+    });
+  });
+}
+
+function setView(newView, entry = null) {
+  const $views = document.querySelectorAll('.view');
+  for (let view of $views) {
+    if (newView === view.getAttribute('data-view')) {
+      data.view = newView;
+      view.classList.remove('hidden');
+    } else {
+      view.classList.add('hidden');
+    }
+  }
+  const $navs = document.querySelectorAll('.nav');
+  for (let nav of $navs) {
+    if (newView === nav.getAttribute('data-view') || singularToPlural[newView] === nav.getAttribute('data-view')) {
+      nav.classList.add('active');
+    } else {
+      nav.classList.remove('active');
+
+    }
+  }
+  cleanUp();
+  if (entry) {
+    viewLoader[newView](entry);
+  }
+}
+
+function cleanUp() {
+  cleanUpCharacter();
+  cleanUpEnemy();
+}
+
+function cleanUpCharacter() {
+  const $additionalInfos = document.querySelector('#character-additional-infos');
+  $additionalInfos.innerHTML = '';
+
+  const $skills = document.querySelector('#skills');
+  $skills.innerHTML = '';
+
+  const $rarity = document.querySelector('#rarity');
+  $rarity.innerHTML = '';
+}
+
+function cleanUpEnemy() {
+  const $regionBG = document.querySelectorAll('.region-bg');
+  for (let region of $regionBG) {
+    region.classList.add('hidden');
+  }
+  const $enemyPortrait = document.querySelector('#enemy-portrait');
+  $enemyPortrait.src = '';
 }
