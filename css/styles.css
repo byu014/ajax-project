@@ -101,3 +101,17 @@ img {
 .skill p {
   padding: 1rem;
 }
+
+.region-bg {
+  background-repeat: 'no-repeat';
+  background-size: 'cover';
+  border-radius: '0.5rem';
+  border: '1px solid rgba(255,255,255,0.3)';
+  width: '28rem';
+  height: '18rem';
+  margin: '1rem 0';
+  position: 'relative';
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+}

@@ -16,6 +16,12 @@ const viewLoader = {
   enemy: loadEnemy
 };
 
+const singularToPlural = {
+  character: 'characters',
+  enemy: 'enemies',
+  weapon: 'weapons'
+};
+
 window.addEventListener('DOMContentLoaded', event => {
   viewLoader.characters();
   viewLoader.enemies();
@@ -187,7 +193,6 @@ function loadCharacter(character = null) {
     $skillGIF.style.borderRadius = '0.5rem';
     $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
     $skill.appendChild($skillGIF);
-
     $skills.appendChild($skill);
   }
 }
@@ -202,6 +207,15 @@ function setView(newView, entry = null) {
       view.classList.add('hidden');
     }
   }
+  const $navs = document.querySelectorAll('.nav');
+  for (let nav of $navs) {
+    if (newView === nav.getAttribute('data-view') || singularToPlural[newView] === nav.getAttribute('data-view')) {
+      nav.classList.add('active');
+    } else {
+      nav.classList.remove('active');
+
+    }
+  }
   cleanUp();
   if (entry) {
     viewLoader[newView](entry);
@@ -212,6 +226,7 @@ function cleanUp() {
   cleanUpCharacter();
   cleanUpEnemy();
 }
+
 function cleanUpCharacter() {
   const $additionalInfos = document.querySelector('#character-additional-infos');
   $additionalInfos.innerHTML = '';
@@ -226,6 +241,9 @@ function cleanUpCharacter() {
 function cleanUpEnemy() {
   const $spawnLocations = document.querySelector('#spawn-locations');
   $spawnLocations.innerHTML = '';
+
+  const $enemyPortrait = document.querySelector('#enemy-portrait');
+  $enemyPortrait.src = '';
 }
 
 function loadAllEnemies() {
@@ -286,11 +304,71 @@ function loadEnemy(enemy = null) {
   });
 
   const $enemyDescription = document.querySelector('#enemy-description');
-  $enemyDescription.textContent = enemy.description;
+  $enemyDescription.textContent = enemy.description ? enemy.description : enemy['elemental-descriptions'][0].description;
 
   const $spawnLocations = document.querySelector('#spawn-locations');
   const $spawnLocationsHeadline = document.createElement('p');
   $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
   $spawnLocations.appendChild($spawnLocationsHeadline);
+
+  let global = ['Mondstadt', 'Liyue', 'Inazuma', 'Dragonspine'];
+  if (enemy.region === 'Global' || enemy.region === 'Multiple') {
+    for (let region of global) {
+      const $regionBG = document.createElement('div');
+      $regionBG.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/locations/${region}.jpg)`;
+      $regionBG.style.backgroundRepeat = 'no-repeat';
+      $regionBG.style.backgroundSize = 'cover';
+      $regionBG.style.borderRadius = '0.5rem';
+      $regionBG.style.border = '1px solid rgba(255,255,255,0.3)';
+      $regionBG.style.width = '28rem';
+      $regionBG.style.height = '18rem';
+      $regionBG.style.margin = '1rem 0';
+      $regionBG.style.position = 'relative';
+      $regionBG.style.display = 'flex';
+      $regionBG.style.justifyContent = 'center';
+      $regionBG.style.alignItems = 'center';
+
+      const $nationSymbol = document.createElement('img');
+      $nationSymbol.src = `../images/nation-symbols/${region}.webp`;
+      $nationSymbol.style.width = '5rem';
+      $nationSymbol.style.height = '5rem';
+      $regionBG.appendChild($nationSymbol);
+
+      const $regionP = document.createElement('p');
+      $regionP.textContent = region;
+      $regionBG.appendChild($regionP);
+
+      $spawnLocations.appendChild($regionBG);
+    }
+  } else {
+    const $regionBG = document.createElement('div');
+    if (enemy.region === 'Monstadt') {
+      enemy.region = 'Mondstadt';
+    }
+    $regionBG.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/locations/${enemy.region}.jpg)`;
+    $regionBG.style.backgroundRepeat = 'no-repeat';
+    $regionBG.style.backgroundSize = 'cover';
+    $regionBG.style.borderRadius = '0.5rem';
+    $regionBG.style.border = '1px solid rgba(255,255,255,0.3)';
+    $regionBG.style.width = '28rem';
+    $regionBG.style.height = '18rem';
+    $regionBG.style.margin = '1rem 0';
+    $regionBG.style.position = 'relative';
+    $regionBG.style.display = 'flex';
+    $regionBG.style.justifyContent = 'center';
+    $regionBG.style.alignItems = 'center';
+
+    const $nationSymbol = document.createElement('img');
+    $nationSymbol.src = `../images/nation-symbols/${enemy.region}.webp`;
+    $nationSymbol.style.width = '5rem';
+    $nationSymbol.style.height = '5rem';
+    $regionBG.appendChild($nationSymbol);
+
+    const $regionP = document.createElement('p');
+    $regionP.textContent = enemy.region;
+    $regionBG.appendChild($regionP);
+
+    $spawnLocations.appendChild($regionBG);
+  }
 
 }
