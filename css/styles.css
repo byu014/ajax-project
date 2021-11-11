@@ -54,9 +54,10 @@ img {
   border: 1px solid black;
   overflow: hidden;
   width: 10rem;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 }
 
-.character-name {
+.entry-name {
   background-color: black;
   text-align: center;
 }
@@ -69,17 +70,8 @@ img {
   border-radius: 100rem;
   border: 2px solid rgba(255, 255, 255, 0.7);
   overflow: hidden;
-  width: 15rem;
-  height: 15rem;
   background-repeat: no-repeat;
   background-size: cover;
-
-  /* background-image: url('../images/locations/Mondstadt.jpg'); */
-}
-
-.portrait-img {
-  height: 25rem;
-  object-fit: cover;
 }
 
 .fa-star {

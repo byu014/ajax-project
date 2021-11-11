@@ -2,7 +2,8 @@ const $navs = document.querySelector('#navs');
 $navs.addEventListener('click', function (event) {
   event.preventDefault();
   if (event.target.matches('.nav')) {
-    setView(event.target.getAttribute('data-view'), data);
+    data.entry = null;
+    setView(event.target.getAttribute('data-view'));
   }
 
 });
@@ -10,32 +11,35 @@ $navs.addEventListener('click', function (event) {
 // associates views with their respective loader functions
 const viewLoader = {
   characters: loadAllCharacters,
-  character: loadCharacter
+  character: loadCharacter,
+  enemies: loadAllEnemies
 };
 
 window.addEventListener('DOMContentLoaded', event => {
-  viewLoader[data.view]();
+  viewLoader.characters();
+  viewLoader.enemies();
+  setView(data.view, data.entry);
 });
 
-function generateIcon(character) {
+function generateIcon(entry) {
   const $iconWrapper = document.createElement('div');
   $iconWrapper.classList.add('icon-wrapper');
 
   const $icon = document.createElement('div');
   $icon.classList.add('icon');
-  $icon.style.background = `no-repeat url("images/rarity/${character.rarity}.webp")`;
+  $icon.style.background = `no-repeat url("images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
   $icon.style.backgroundSize = '100% 100%';
   const $img = document.createElement('img');
-  $img.src = character.iconURL;
+  $img.src = entry.iconURL ? entry.iconURL : entry.iconUrl;
   $img.style.width = '100%';
 
-  const $charName = document.createElement('p');
-  $charName.classList.add('character-name');
-  $charName.textContent = character.name;
+  const $entryName = document.createElement('p');
+  $entryName.classList.add('entry-name');
+  $entryName.textContent = entry.name;
 
-  $icon.setAttribute('data-character-name', character.name);
+  $icon.setAttribute('data-entry-name', entry.name);
   $icon.appendChild($img);
-  $icon.appendChild($charName);
+  $icon.appendChild($entryName);
   $iconWrapper.appendChild($icon);
   return $iconWrapper;
 
@@ -57,28 +61,25 @@ function loadAllCharacters() {
   xhr.send();
   xhr.addEventListener('load', function () {
     const characters = this.response.payload.characters;
-    const $icons = document.querySelector('#icons');
+    const $icons = document.querySelector('#character-icons');
     const charactersObj = {};
     for (let character of characters) {
       const $iconWrapper = generateIcon(character);
-      saveCharacter(character, charactersObj);
+      charactersObj[character.name] = character;
       $icons.appendChild($iconWrapper);
     }
     $icons.addEventListener('click', function (event) {
       if (!event.target.matches('.icon')) {
         return;
       }
-      const curChar = event.target.getAttribute('data-character-name');
-      setView('character', data, charactersObj[curChar]);
+      const curChar = event.target.getAttribute('data-entry-name');
+      data.entry = charactersObj[curChar];
+      setView('character', charactersObj[curChar]);
     });
   });
 }
 
-function saveCharacter(character, charactersObj) {
-  charactersObj[character.name] = character;
-}
-
-function loadCharacter(character) {
+function loadCharacter(character = null) {
   const $headline = document.querySelector('#character-name');
   $headline.textContent = character.name;
 
@@ -190,7 +191,7 @@ function loadCharacter(character) {
   }
 }
 
-function setView(newView, data, entry = null) {
+function setView(newView, entry = null) {
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
     if (newView === view.getAttribute('data-view')) {
@@ -218,4 +219,29 @@ function cleanUpCharacter() {
 
   const $rarity = document.querySelector('#rarity');
   $rarity.innerHTML = '';
+}
+
+function loadAllEnemies() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/enemies');
+  xhr.responseType = 'json';
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    const enemies = this.response.payload.enemies;
+    const $icons = document.querySelector('#enemy-icons');
+    const enemiesObj = {};
+    for (let enemy of enemies) {
+      const $iconWrapper = generateIcon(enemy);
+      enemiesObj[enemy.name] = enemy;
+      $icons.appendChild($iconWrapper);
+    }
+    $icons.addEventListener('click', function (event) {
+      if (!event.target.matches('.icon')) {
+        return;
+      }
+      const curEnemy = event.target.getAttribute('data-enemy-name');
+      data.entry = enemiesObj[curEnemy];
+      setView('enemy', enemiesObj[curEnemy]);
+    });
+  });
 }

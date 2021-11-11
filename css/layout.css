@@ -54,9 +54,10 @@ html {
   flex-wrap: wrap;
 }
 
-.character-name {
+.entry-name {
   width: 100%;
   margin: 0;
+  padding: 0.5rem 0;
 }
 
 .navs {
@@ -69,6 +70,13 @@ html {
 .portrait-bg {
   display: flex;
   justify-content: center;
+  width: 30rem;
+  height: 30rem;
+}
+
+.portrait-img {
+  height: 40rem;
+  object-fit: cover;
 }
 
 .portrait-rating {
