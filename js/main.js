@@ -94,8 +94,8 @@ function loadCharacter(character) {
     $rarity.appendChild($star);
   }
 
-  const $description = document.querySelector('#character-description');
-  $description.textContent = character.description;
+  const $characterDescription = document.querySelector('#character-description');
+  $characterDescription.textContent = character.description;
 
   const $visionImg = document.querySelector('#vision-img');
   $visionImg.src = `../images/elements/${character.element}.webp`;
@@ -111,6 +111,40 @@ function loadCharacter(character) {
   $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
   const $nation = document.querySelector('#nation');
   $nation.innerHTML += character.nation;
+
+  const $skills = document.querySelector('#skills');
+  const iconPrefix = `https://res.cloudinary.com/dnoibyqq2/image/upload/v1617900084/genshin-app/characters/${character.name.toLowerCase()}/`;
+  for (let i = 0; i < character.combatSkills.length; i++) {
+    const $skill = document.createElement('div');
+    $skill.classList.add('skill');
+
+    const $skillImg = document.createElement('img');
+    $skillImg.src = iconPrefix + character.combatSkills[i].iconUrl;
+    $skillImg.style.width = '3rem';
+    $skillImg.style.height = '3rem';
+    $skill.appendChild($skillImg);
+
+    const $skillDescription = document.createElement('p');
+    if (!character.combatSkills[i].variants[0].description) {
+      $skillDescription.textContent = character.combatSkills[i].variants[1].description;
+    } else {
+      $skillDescription.textContent = character.combatSkills[i].variants[0].description;
+    }
+    $skill.appendChild($skillDescription);
+
+    const $skillGIF = document.createElement('img');
+    if (!character.combatSkills[i].variants[0].gifUrl) {
+      $skillGIF.src = character.combatSkills[i].variants[1].gifUrl;
+    } else {
+      $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
+    }
+    $skillGIF.style.width = 'calc(100% / 3)';
+    $skillGIF.style.borderRadius = '0.5rem';
+    $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
+    $skill.appendChild($skillGIF);
+
+    $skills.appendChild($skill);
+  }
 }
 
 function setView(newView, entry = null) {

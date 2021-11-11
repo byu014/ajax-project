@@ -102,5 +102,10 @@ img {
 
 .additional-info img {
   width: 1.5rem;
-  margin-left: 0.5rem;
+  height: 1.5rem;
+  margin: 0 0.5rem;
+}
+
+.skill p {
+  padding: 1rem;
 }
