@@ -50,7 +50,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-full icons" id="icons">
+              <div class="col-full icons" id="character-icons">
                 <!-- icons generated using JS go here div.icon-wrapper -->
               </div>
             </div>
@@ -79,6 +79,66 @@
                   <!-- additional info go here -->
                 </div>
                 <div id="skills" class="skills">
+                  <!-- individual skill goes here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" data-view="enemies">
+        <div class="black-container">
+          <div class="row">
+            <div class="col-full">
+              <p class="heading content-headline shadow">Enemies</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-full icons" id="enemy-icons">
+              <!-- icons generated using JS go here div.icon-wrapper -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view hidden" data-view="enemy">
+        <div class="black-container">
+          <div class="row">
+            <div class="col-full name-element">
+              <p class="heading content-headline shadow" id="enemy-name"></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-half portrait-rating">
+              <div class="portrait-bg small-portrait-bg" id="enemy-portrait-bg">
+                <img class="portrait-img small-portrait-img" alt="" id="enemy-portrait">
+              </div>
+            </div>
+            <div class="col-half">
+              <div class="white-container">
+                <p id="enemy-description"></p>
+                <div class="additional-infos" id="enemy-additional-infos">
+                  <!-- additional info go here -->
+                </div>
+                <div id="spawn-locations" class="spawn-locations">
+                  <p><u>Spawn Locations</u></p>
+                  <div class="region-bg hidden" id="mondstadt-spawn" data-spawn="Mondstadt">
+                    <img src="images/nation-symbols/Mondstadt.webp" alt="" class="nation-symbol-spawn">
+                    <p>Mondstadt</p>
+                  </div>
+                  <div class="region-bg hidden"  id="liyue-spawn" data-spawn="Liyue">
+                    <img src="images/nation-symbols/Liyue.webp" alt="" class="nation-symbol-spawn">
+                    <p>Liyue</p>
+                  </div>
+                  <div class="region-bg hidden" id="inazuma-spawn" data-spawn="Inazuma">
+                    <img src="images/nation-symbols/Inazuma.webp" alt="" class="nation-symbol-spawn">
+                    <p>Inazuma</p>
+                  </div>
+                  <div class="region-bg hidden" id="dragonspine-spawn" data-spawn="Dragonspine">
+                    <img src="images/nation-symbols/Dragonspine.webp" alt="" class="nation-symbol-spawn">
+                    <p>Dragonspine</p>
+                  </div>
                   <!-- individual skill goes here -->
                 </div>
               </div>

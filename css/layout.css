@@ -39,6 +39,11 @@ html {
   padding: 2rem 5rem;
 }
 
+.black-container .col-half,
+.black-container .col-full {
+  margin: 1rem 0;
+}
+
 .icon {
   display: flex;
   flex-direction: column;
@@ -54,9 +59,10 @@ html {
   flex-wrap: wrap;
 }
 
-.character-name {
+.entry-name {
   width: 100%;
   margin: 0;
+  padding: 0.5rem 0;
 }
 
 .navs {
@@ -69,6 +75,22 @@ html {
 .portrait-bg {
   display: flex;
   justify-content: center;
+  width: 30rem;
+  height: 30rem;
+}
+
+.small-portrait-bg {
+  width: 20rem;
+  height: 20rem;
+}
+
+.portrait-img {
+  height: 40rem;
+  object-fit: cover;
+}
+
+.small-portrait-img {
+  height: 21rem;
 }
 
 .portrait-rating {
@@ -81,7 +103,6 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
 }
 
 .white-container {
@@ -111,7 +132,36 @@ html {
   align-items: center;
 }
 
-@media screen and (min-width: 900px) {
+.spawn-locations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.region-bg {
+  width: 28rem;
+  height: 18rem;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nation-symbol-spawn {
+  width: 5rem;
+  height: 5rem;
+}
+
+.skill-img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.skill-gif {
+  width: calc(100% / 3);
+}
+
+@media screen and (min-width: 1000px) {
   .container {
     max-width: 1920px;
   }

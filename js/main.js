@@ -2,7 +2,8 @@ const $navs = document.querySelector('#navs');
 $navs.addEventListener('click', function (event) {
   event.preventDefault();
   if (event.target.matches('.nav')) {
-    setView(event.target.getAttribute('data-view'), data);
+    data.entry = null;
+    setView(event.target.getAttribute('data-view'));
   }
 
 });
@@ -10,32 +11,42 @@ $navs.addEventListener('click', function (event) {
 // associates views with their respective loader functions
 const viewLoader = {
   characters: loadAllCharacters,
-  character: loadCharacter
+  character: loadCharacter,
+  enemies: loadAllEnemies,
+  enemy: loadEnemy
+};
+
+const singularToPlural = {
+  character: 'characters',
+  enemy: 'enemies',
+  weapon: 'weapons'
 };
 
 window.addEventListener('DOMContentLoaded', event => {
-  viewLoader[data.view]();
+  viewLoader.characters();
+  viewLoader.enemies();
+  setView(data.view, data.entry);
 });
 
-function generateIcon(character) {
+function generateIcon(entry) {
   const $iconWrapper = document.createElement('div');
   $iconWrapper.classList.add('icon-wrapper');
 
   const $icon = document.createElement('div');
   $icon.classList.add('icon');
-  $icon.style.background = `no-repeat url("images/rarity/${character.rarity}.webp")`;
+  $icon.style.background = `no-repeat url("images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
   $icon.style.backgroundSize = '100% 100%';
   const $img = document.createElement('img');
-  $img.src = character.iconURL;
+  $img.src = entry.iconURL ? entry.iconURL : entry.iconUrl;
   $img.style.width = '100%';
 
-  const $charName = document.createElement('p');
-  $charName.classList.add('character-name');
-  $charName.textContent = character.name;
+  const $entryName = document.createElement('p');
+  $entryName.classList.add('entry-name');
+  $entryName.textContent = entry.name;
 
-  $icon.setAttribute('data-character-name', character.name);
+  $icon.setAttribute('data-entry-name', entry.name);
   $icon.appendChild($img);
-  $icon.appendChild($charName);
+  $icon.appendChild($entryName);
   $iconWrapper.appendChild($icon);
   return $iconWrapper;
 
@@ -57,28 +68,25 @@ function loadAllCharacters() {
   xhr.send();
   xhr.addEventListener('load', function () {
     const characters = this.response.payload.characters;
-    const $icons = document.querySelector('#icons');
+    const $icons = document.querySelector('#character-icons');
     const charactersObj = {};
     for (let character of characters) {
       const $iconWrapper = generateIcon(character);
-      saveCharacter(character, charactersObj);
+      charactersObj[character.name] = character;
       $icons.appendChild($iconWrapper);
     }
     $icons.addEventListener('click', function (event) {
       if (!event.target.matches('.icon')) {
         return;
       }
-      const curChar = event.target.getAttribute('data-character-name');
-      setView('character', data, charactersObj[curChar]);
+      const curChar = event.target.getAttribute('data-entry-name');
+      data.entry = charactersObj[curChar];
+      setView('character', charactersObj[curChar]);
     });
   });
 }
 
-function saveCharacter(character, charactersObj) {
-  charactersObj[character.name] = character;
-}
-
-function loadCharacter(character) {
+function loadCharacter(character = null) {
   const $headline = document.querySelector('#character-name');
   $headline.textContent = character.name;
 
@@ -162,9 +170,10 @@ function loadCharacter(character) {
     $skill.classList.add('skill');
 
     const $skillImg = document.createElement('img');
+    $skillImg.classList.add('skill-img');
     $skillImg.src = iconPrefix + character.combatSkills[i].iconUrl;
-    $skillImg.style.width = '3rem';
-    $skillImg.style.height = '3rem';
+    // $skillImg.style.width = '3rem';
+    // $skillImg.style.height = '3rem';
     $skill.appendChild($skillImg);
 
     const $skillDescription = document.createElement('p');
@@ -176,21 +185,21 @@ function loadCharacter(character) {
     $skill.appendChild($skillDescription);
 
     const $skillGIF = document.createElement('img');
+    $skillGIF.classList.add('skill-gif');
     if (!character.combatSkills[i].variants[0].gifUrl) {
       $skillGIF.src = character.combatSkills[i].variants[1].gifUrl;
     } else {
       $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
     }
-    $skillGIF.style.width = 'calc(100% / 3)';
-    $skillGIF.style.borderRadius = '0.5rem';
-    $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
+    // $skillGIF.style.width = 'calc(100% / 3)';
+    // $skillGIF.style.borderRadius = '0.5rem';
+    // $skillGIF.style.border = '1px solid rgba(255,255,255,0.3)';
     $skill.appendChild($skillGIF);
-
     $skills.appendChild($skill);
   }
 }
 
-function setView(newView, data, entry = null) {
+function setView(newView, entry = null) {
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
     if (newView === view.getAttribute('data-view')) {
@@ -198,6 +207,15 @@ function setView(newView, data, entry = null) {
       view.classList.remove('hidden');
     } else {
       view.classList.add('hidden');
+    }
+  }
+  const $navs = document.querySelectorAll('.nav');
+  for (let nav of $navs) {
+    if (newView === nav.getAttribute('data-view') || singularToPlural[newView] === nav.getAttribute('data-view')) {
+      nav.classList.add('active');
+    } else {
+      nav.classList.remove('active');
+
     }
   }
   cleanUp();
@@ -208,7 +226,9 @@ function setView(newView, data, entry = null) {
 
 function cleanUp() {
   cleanUpCharacter();
+  cleanUpEnemy();
 }
+
 function cleanUpCharacter() {
   const $additionalInfos = document.querySelector('#character-additional-infos');
   $additionalInfos.innerHTML = '';
@@ -218,4 +238,103 @@ function cleanUpCharacter() {
 
   const $rarity = document.querySelector('#rarity');
   $rarity.innerHTML = '';
+}
+
+function cleanUpEnemy() {
+  const $regionBG = document.querySelectorAll('.region-bg');
+  for (let region of $regionBG) {
+    region.classList.add('hidden');
+  }
+  const $enemyPortrait = document.querySelector('#enemy-portrait');
+  $enemyPortrait.src = '';
+}
+
+function loadAllEnemies() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.genshin.dev/enemies/');
+  xhr.responseType = 'json';
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    const enemies = this.response;
+    const $icons = document.querySelector('#enemy-icons');
+    const enemiesObj = {};
+    for (let i = 0; i < enemies.length; i++) {
+      let enemy = enemies[i];
+      let xhr2 = new XMLHttpRequest();
+      xhr2.open('GET', 'https://api.genshin.dev/enemies/' + enemy);
+      xhr2.responseType = 'json';
+      xhr2.send();
+      xhr2.addEventListener('load', function () {
+        enemy = this.response;
+        enemy.iconUrl = `https://api.genshin.dev/enemies/${enemy.id}/icon`;
+        if (!enemy.name) {
+          enemy.name = enemy.id[0].toUpperCase() + enemy.id.slice(1);
+        }
+        const $iconWrapper = generateIcon(enemy);
+        enemiesObj[enemy.name] = enemy;
+        $icons.appendChild($iconWrapper);
+      });
+    }
+    $icons.addEventListener('click', function (event) {
+      if (!event.target.matches('.icon')) {
+        return;
+      }
+      const curEnemy = event.target.getAttribute('data-entry-name');
+      data.entry = enemiesObj[curEnemy];
+      setView('enemy', enemiesObj[curEnemy]);
+    });
+  });
+}
+
+function loadEnemy(enemy = null) {
+  const $headline = document.querySelector('#enemy-name');
+  $headline.textContent = enemy.name;
+
+  const $enemyPortraitBg = document.querySelector('#enemy-portrait-bg');
+  $enemyPortraitBg.style.backgroundImage = 'url(../images/locations/enemies.jpg)';
+
+  const $enemyPortrait = document.querySelector('#enemy-portrait');
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `https://api.genshin.dev/enemies/${enemy.id}/portrait`);
+  xhr.responseType = 'blob';
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    if (this.response.type === 'image/webp') {
+      $enemyPortrait.src = `https://api.genshin.dev/enemies/${enemy.id}/portrait`;
+    } else {
+      $enemyPortrait.src = `https://api.genshin.dev/enemies/${enemy.id}/icon`;
+    }
+  });
+
+  const $enemyDescription = document.querySelector('#enemy-description');
+  if (enemy.description) {
+    $enemyDescription.textContent = enemy.description;
+  } else if (enemy['elemental-descriptions']) {
+    $enemyDescription.textContent = enemy['elemental-descriptions'][0].description;
+  } else {
+    $enemyDescription.textContent = enemy.descriptions[0].description;
+  }
+  // const $spawnLocations = document.querySelector('#spawn-locations');
+  // const $spawnLocationsHeadline = document.createElement('p');
+  // $spawnLocationsHeadline.innerHTML = '<u>Spawn Locations<u>';
+  // $spawnLocations.appendChild($spawnLocationsHeadline);
+
+  let global = ['Mondstadt', 'Liyue', 'Inazuma', 'Dragonspine'];
+  if (enemy.region === 'Monstadt') {
+    enemy.region = 'Mondstadt';
+  }
+  const $regionBG = document.querySelectorAll('.region-bg');
+  if (enemy.region === 'Global' || enemy.region === 'Multiple' || !global.includes(enemy.region)) {
+    for (let region of $regionBG) {
+      region.classList.remove('hidden');
+    }
+  } else {
+    for (let region of $regionBG) {
+      if (region.getAttribute('data-spawn') === enemy.region) {
+        region.classList.remove('hidden');
+        break;
+      }
+    }
+  }
+
 }
