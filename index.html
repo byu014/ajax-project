@@ -23,17 +23,17 @@
         <div class="col-half logo">
           <p class="heading shadow">Archonic</p>
         </div>
-        <div class="col-half navs">
-          <a href="" class="nav shadow" id="home-nav">
+        <div class="col-half navs" id="navs">
+          <a href="" class="nav shadow" id="home-nav" data-view="home">
             Home
           </a>
-          <a href="" class="nav shadow active" id="characters-nav">
+          <a href="" class="nav shadow active" id="characters-nav" data-view="characters">
             Characters
           </a>
-          <a href="" class="nav shadow" id="enemies-nav">
+          <a href="" class="nav shadow" id="enemies-nav" data-view="enemies">
             Enemies
           </a>
-          <a href="" class="nav shadow" id="weapons-nav">
+          <a href="" class="nav shadow" id="weapons-nav" data-view="weapons">
             Weapons
           </a>
         </div>
@@ -75,22 +75,11 @@
             <div class="col-half">
               <div class="white-container">
                 <p id="character-description"></p>
-                <div class="additional-infos">
-                  <div class="additional-info">
-                    <p id="vision"><strong>Vision: </strong></p>
-                    <img id="vision-img" alt="">
-                  </div>
-                  <div class="additional-info">
-                    <p id="weapon"><strong>Weapon: </strong></p>
-                    <img id="weapon-img" alt="">
-                  </div>
-                  <div class="additional-info">
-                    <p id="nation"><strong>Nation: </strong></p>
-                    <img id="nation-img" alt="">
-                  </div>
+                <div class="additional-infos" id="character-additional-infos">
+                  <!-- additional info go here -->
                 </div>
                 <div id="skills" class="skills">
-                  <p><u>Skills</u></p>
+                  <!-- individual skill goes here -->
                 </div>
               </div>
             </div>

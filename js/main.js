@@ -1,3 +1,11 @@
+const $navs = document.querySelector('#navs');
+$navs.addEventListener('click', function (event) {
+  event.preventDefault();
+  if (event.target.matches('.nav')) {
+    setView(event.target.getAttribute('data-view'), data);
+  }
+
+});
 
 // associates views with their respective loader functions
 const viewLoader = {
@@ -61,7 +69,7 @@ function loadAllCharacters() {
         return;
       }
       const curChar = event.target.getAttribute('data-character-name');
-      setView('character', charactersObj[curChar]);
+      setView('character', data, charactersObj[curChar]);
     });
   });
 }
@@ -97,22 +105,57 @@ function loadCharacter(character) {
   const $characterDescription = document.querySelector('#character-description');
   $characterDescription.textContent = character.description;
 
-  const $visionImg = document.querySelector('#vision-img');
+  const $additionalInfos = document.querySelector('#character-additional-infos');
+
+  let $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+
+  const $vision = document.createElement('p');
+  $vision.setAttribute('id', 'vision');
+
+  const $visionImg = document.createElement('img');
+  $visionImg.setAttribute('id', 'vision-img');
+
   $visionImg.src = `../images/elements/${character.element}.webp`;
-  const $vision = document.querySelector('#vision');
-  $vision.innerHTML += character.element;
+  $vision.innerHTML += '<strong>Vision: </strong>' + character.element;
+  $additionalInfo.appendChild($vision);
+  $additionalInfo.appendChild($visionImg);
+  $additionalInfos.appendChild($additionalInfo);
 
-  const $weaponImg = document.querySelector('#weapon-img');
+  $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+  const $weapon = document.createElement('p');
+  $vision.setAttribute('id', 'weapon');
+
+  const $weaponImg = document.createElement('img');
+  $visionImg.setAttribute('id', 'weapon-img');
+
   $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
-  const $weapon = document.querySelector('#weapon');
-  $weapon.innerHTML += character.weaponType;
+  $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
+  $additionalInfo.appendChild($weapon);
+  $additionalInfo.appendChild($weaponImg);
+  $additionalInfos.appendChild($additionalInfo);
 
-  const $nationImg = document.querySelector('#nation-img');
+  $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+
+  const $nation = document.createElement('p');
+  $nation.setAttribute('id', 'nation');
+
+  const $nationImg = document.createElement('img');
+  $nationImg.setAttribute('id', 'nation-img');
+
   $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
-  const $nation = document.querySelector('#nation');
-  $nation.innerHTML += character.nation;
+  $nation.innerHTML += '<strong>Nation: </strong>' + character.nation;
+  $additionalInfo.appendChild($nation);
+  $additionalInfo.appendChild($nationImg);
+  $additionalInfos.appendChild($additionalInfo);
 
   const $skills = document.querySelector('#skills');
+  const $skillsHeadline = document.createElement('p');
+  $skillsHeadline.innerHTML = '<u>Skills<u>';
+  $skills.appendChild($skillsHeadline);
+
   const iconPrefix = `https://res.cloudinary.com/dnoibyqq2/image/upload/v1617900084/genshin-app/characters/${character.name.toLowerCase()}/`;
   for (let i = 0; i < character.combatSkills.length; i++) {
     const $skill = document.createElement('div');
@@ -147,16 +190,32 @@ function loadCharacter(character) {
   }
 }
 
-function setView(newView, entry = null) {
+function setView(newView, data, entry = null) {
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
     if (newView === view.getAttribute('data-view')) {
+      data.view = newView;
       view.classList.remove('hidden');
     } else {
       view.classList.add('hidden');
     }
   }
+  cleanUp();
   if (entry) {
     viewLoader[newView](entry);
   }
+}
+
+function cleanUp() {
+  cleanUpCharacter();
+}
+function cleanUpCharacter() {
+  const $additionalInfos = document.querySelector('#character-additional-infos');
+  $additionalInfos.innerHTML = '';
+
+  const $skills = document.querySelector('#skills');
+  $skills.innerHTML = '';
+
+  const $rarity = document.querySelector('#rarity');
+  $rarity.innerHTML = '';
 }
