@@ -43,7 +43,7 @@ function generateIcon(entry) {
 
   const $icon = document.createElement('div');
   $icon.classList.add('icon');
-  $icon.style.background = `no-repeat url("images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
+  $icon.style.background = `no-repeat url("../images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
   $icon.style.backgroundSize = '100% 100%';
   const $img = document.createElement('img');
   $img.src = entry.iconURL ? entry.iconURL : entry.iconUrl;
@@ -106,7 +106,7 @@ function loadCharacter(character = null) {
     character.nation = 'Unknown';
   }
   const $characterPortraitBg = document.querySelector('#character-portrait-bg');
-  $characterPortraitBg.style.backgroundImage = `url(../images/locations/${character.nation}.jpg)`;
+  $characterPortraitBg.style.backgroundImage = `url("../images/locations/${character.nation}.jpg")`;
 
   const $characterPortrait = document.querySelector('#character-portrait');
   $characterPortrait.src = character.portraitImageURL;
@@ -245,7 +245,7 @@ function loadEnemy(enemy = null) {
   $headline.textContent = enemy.name;
 
   const $enemyPortraitBg = document.querySelector('#enemy-portrait-bg');
-  $enemyPortraitBg.style.backgroundImage = 'url(../images/locations/enemies.jpg)';
+  $enemyPortraitBg.style.backgroundImage = 'url("../images/locations/enemies.jpg")';
 
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   const xhr = new XMLHttpRequest();
@@ -326,7 +326,7 @@ function loadWeapon(weapon = null) {
   $headline.textContent = weapon.name;
 
   const $weaponPortraitBg = document.querySelector('#weapon-portrait-bg');
-  $weaponPortraitBg.style.backgroundImage = 'url(../images/locations/weapons.jpg)';
+  $weaponPortraitBg.style.backgroundImage = 'url("../images/locations/weapons.jpg")';
 
   const $weaponPortrait = document.querySelector('#weapon-portrait');
   $weaponPortrait.src = weapon.iconUrl;
