@@ -43,7 +43,7 @@ function generateIcon(entry) {
 
   const $icon = document.createElement('div');
   $icon.classList.add('icon');
-  $icon.style.background = `no-repeat url("../images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
+  $icon.style.background = `no-repeat url("images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
   $icon.style.backgroundSize = '100% 100%';
   const $img = document.createElement('img');
   $img.src = entry.iconURL ? entry.iconURL : entry.iconUrl;
@@ -100,13 +100,13 @@ function loadCharacter(character = null) {
   $headline.textContent = character.name;
 
   const $element = document.querySelector('#element');
-  $element.src = `../images/elements/${character.element}.webp`;
+  $element.src = `images/elements/${character.element}.webp`;
 
   if (!character.nation) {
     character.nation = 'Unknown';
   }
   const $characterPortraitBg = document.querySelector('#character-portrait-bg');
-  $characterPortraitBg.style.backgroundImage = `url("../images/locations/${character.nation}.jpg")`;
+  $characterPortraitBg.style.backgroundImage = `url("images/locations/${character.nation}.jpg")`;
 
   const $characterPortrait = document.querySelector('#character-portrait');
   $characterPortrait.src = character.portraitImageURL;
@@ -133,7 +133,7 @@ function loadCharacter(character = null) {
   const $visionImg = document.createElement('img');
   $visionImg.setAttribute('id', 'vision-img');
 
-  $visionImg.src = `../images/elements/${character.element}.webp`;
+  $visionImg.src = `images/elements/${character.element}.webp`;
   $vision.innerHTML += '<strong>Vision: </strong>' + character.element;
   $additionalInfo.appendChild($vision);
   $additionalInfo.appendChild($visionImg);
@@ -147,7 +147,7 @@ function loadCharacter(character = null) {
   const $weaponImg = document.createElement('img');
   $weaponImg.setAttribute('id', 'weapon-img');
 
-  $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
+  $weaponImg.src = `images/weapons/${character.weaponType}.png`;
   $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
   $additionalInfo.appendChild($weapon);
   $additionalInfo.appendChild($weaponImg);
@@ -162,7 +162,7 @@ function loadCharacter(character = null) {
   const $nationImg = document.createElement('img');
   $nationImg.setAttribute('id', 'nation-img');
 
-  $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
+  $nationImg.src = `images/nation-symbols/${character.nation}.webp`;
   $nation.innerHTML += '<strong>Nation: </strong>' + character.nation;
   $additionalInfo.appendChild($nation);
   $additionalInfo.appendChild($nationImg);
@@ -245,7 +245,7 @@ function loadEnemy(enemy = null) {
   $headline.textContent = enemy.name;
 
   const $enemyPortraitBg = document.querySelector('#enemy-portrait-bg');
-  $enemyPortraitBg.style.backgroundImage = 'url("../images/locations/enemies.jpg")';
+  $enemyPortraitBg.style.backgroundImage = 'url("images/locations/enemies.jpg")';
 
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   const xhr = new XMLHttpRequest();
@@ -326,7 +326,7 @@ function loadWeapon(weapon = null) {
   $headline.textContent = weapon.name;
 
   const $weaponPortraitBg = document.querySelector('#weapon-portrait-bg');
-  $weaponPortraitBg.style.backgroundImage = 'url("../images/locations/weapons.jpg")';
+  $weaponPortraitBg.style.backgroundImage = 'url("images/locations/weapons.jpg")';
 
   const $weaponPortrait = document.querySelector('#weapon-portrait');
   $weaponPortrait.src = weapon.iconUrl;
@@ -353,7 +353,7 @@ function loadWeapon(weapon = null) {
   const $weaponTypeImg = document.createElement('img');
   $weaponTypeImg.setAttribute('id', 'weapon-type-img');
 
-  $weaponTypeImg.src = `../images/weapons/${weapon.weaponType}.png`;
+  $weaponTypeImg.src = `images/weapons/${weapon.weaponType}.png`;
   $weaponType.innerHTML += '<strong>Weapon Type: </strong>' + weapon.weaponType;
   $additionalInfo.appendChild($weaponType);
   $additionalInfo.appendChild($weaponTypeImg);
@@ -370,8 +370,8 @@ function loadWeapon(weapon = null) {
   const $sourceImgIntertwined = document.createElement('img');
   $sourceImgIntertwined.setAttribute('id', 'source-intertwined-img');
 
-  $sourceImgAcquiant.src = '../images/fates/acquaint.webp';
-  $sourceImgIntertwined.src = '../images/fates/intertwined.webp';
+  $sourceImgAcquiant.src = 'images/fates/acquaint.webp';
+  $sourceImgIntertwined.src = 'images/fates/intertwined.webp';
   switch (weapon.rarity) {
     case 3:
       $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
