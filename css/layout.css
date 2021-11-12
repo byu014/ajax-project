@@ -164,8 +164,8 @@ html {
 }
 
 .region-bg {
-  width: 28rem;
-  height: 18rem;
+  width: 25rem;
+  height: 15rem;
   margin: 1rem 0;
   display: flex;
   justify-content: center;
@@ -231,7 +231,7 @@ html {
   margin-top: 2rem;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1100px) {
   .container {
     max-width: 1920px;
   }
