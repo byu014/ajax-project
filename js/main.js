@@ -297,7 +297,8 @@ function loadAllWeapons() {
         continue;
       }
       if (weapon.name === 'Freedom Sworn') {
-        weapon.name = 'Freedom-Sworn';
+        // weapon.name = 'Freedom-Sworn';
+        continue;
       }
       weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
       const $iconWrapper = generateIcon(weapon);
@@ -386,40 +387,76 @@ function loadWeapon(weapon = null) {
   }
   $additionalInfos.appendChild($additionalInfo);
 
-  // $additionalInfo = document.createElement('div');
-  // $additionalInfo.classList.add('additional-info');
-  // const $weapon = document.createElement('p');
-  // $vision.setAttribute('id', 'weapon');
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `https://genshin-app-api.herokuapp.com/api/weapons/info/${weapon.name === 'Freedom-Sworn' ? 'Freedom Sworn' : weapon.name}?infoDataSize=all`);
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    const weapon = this.response.payload.weapon;
 
-  // const $weaponImg = document.createElement('img');
-  // $visionImg.setAttribute('id', 'weapon-img');
+    const $ascensionMaterials = document.querySelector('#ascension-materials');
+    const $ascensionMaterialsHeadline = document.createElement('p');
+    $ascensionMaterialsHeadline.innerHTML = '<u>Ascension Materials</u>';
+    $ascensionMaterials.appendChild($ascensionMaterialsHeadline);
 
-  // $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
-  // $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
-  // $additionalInfo.appendChild($weapon);
-  // $additionalInfo.appendChild($weaponImg);
-  // $additionalInfos.appendChild($additionalInfo);
+    // first mat
+    const $materials = document.createElement('div');
+    $materials.classList.add('materials');
 
-  // $additionalInfo = document.createElement('div');
-  // $additionalInfo.classList.add('additional-info');
+    let $material = document.createElement('div');
+    $material.classList.add('material');
 
-  // const $nation = document.createElement('p');
-  // $nation.setAttribute('id', 'nation');
+    let $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    let i = weapon.ascensionEnemyDrops.length - 2;
+    $materialImg.src = weapon.ascensionEnemyDrops[i].iconUrl;
 
-  // const $nationImg = document.createElement('img');
-  // $nationImg.setAttribute('id', 'nation-img');
+    let $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionEnemyDrops[i].name;
 
-  // $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
-  // $nation.innerHTML += '<strong>Nation: </strong>' + character.nation;
-  // $additionalInfo.appendChild($nation);
-  // $additionalInfo.appendChild($nationImg);
-  // $additionalInfos.appendChild($additionalInfo);
+    // second mat
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
 
-  // const $ascensionMaterials = document.querySelector('#ascension-materials');
-  // const $ascensionMaterialsHeadline = document.createElement('p');
-  // $ascensionMaterialsHeadline.innerHTML = '<u>Ascension Materials</u>';
-  // $ascensionMaterials.appendChild($ascensionMaterialsHeadline);
+    $material = document.createElement('div');
+    $material.classList.add('material');
 
+    $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    i = weapon.ascensionEnemyDrops.length - 1;
+    $materialImg.src = weapon.ascensionEnemyDrops[i].iconUrl;
+
+    $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionEnemyDrops[i].name;
+
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    // third mat
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    $material = document.createElement('div');
+    $material.classList.add('material');
+
+    $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    i = weapon.ascensionMaterials.length - 1;
+    $materialImg.src = weapon.ascensionMaterials[i].iconUrl;
+
+    $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionMaterials[i].name;
+
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    $ascensionMaterials.appendChild($materials);
+  });
+
+  xhr.send();
 }
 
 function setView(newView, entry = null) {

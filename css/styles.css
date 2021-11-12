@@ -113,3 +113,8 @@ img {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/locations/Dragonspine.jpg');
   background-size: cover;
 }
+
+.material {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem;
+}
