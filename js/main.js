@@ -14,7 +14,8 @@ const viewLoader = {
   character: loadCharacter,
   enemies: loadAllEnemies,
   enemy: loadEnemy,
-  weapons: loadAllWeapons
+  weapons: loadAllWeapons,
+  weapon: loadWeapon
 };
 
 const singularToPlural = {
@@ -104,7 +105,7 @@ function loadCharacter(character = null) {
   const $characterPortrait = document.querySelector('#character-portrait');
   $characterPortrait.src = character.portraitImageURL;
 
-  const $rarity = document.querySelector('#rarity');
+  const $rarity = document.querySelector('#character-rarity');
   for (let i = 0; i < character.rarity; i++) {
     const $star = document.createElement('i');
     $star.classList.add('fas');
@@ -163,7 +164,7 @@ function loadCharacter(character = null) {
 
   const $skills = document.querySelector('#skills');
   const $skillsHeadline = document.createElement('p');
-  $skillsHeadline.innerHTML = '<u>Skills<u>';
+  $skillsHeadline.innerHTML = '<u>Skills</u>';
   $skills.appendChild($skillsHeadline);
 
   const iconPrefix = `https://res.cloudinary.com/dnoibyqq2/image/upload/v1617900084/genshin-app/characters/${character.name.toLowerCase()}/`;
@@ -314,6 +315,80 @@ function loadAllWeapons() {
   });
 }
 
+function loadWeapon(weapon = null) {
+  const $headline = document.querySelector('#weapon-name');
+  $headline.textContent = weapon.name;
+
+  const $weaponPortraitBg = document.querySelector('#weapon-portrait-bg');
+  $weaponPortraitBg.style.backgroundImage = 'url(../images/locations/weapons.jpg)';
+
+  const $weaponPortrait = document.querySelector('#weapon-portrait');
+  $weaponPortrait.src = weapon.iconUrl;
+
+  const $rarity = document.querySelector('#weapon-rarity');
+  for (let i = 0; i < weapon.rarity; i++) {
+    const $star = document.createElement('i');
+    $star.classList.add('fas');
+    $star.classList.add('fa-star');
+    $rarity.appendChild($star);
+  }
+
+  const $weaponDescription = document.querySelector('#weapon-description');
+  $weaponDescription.textContent = weapon.description;
+
+  // const $additionalInfos = document.querySelector('#character-additional-infos');
+
+  // let $additionalInfo = document.createElement('div');
+  // $additionalInfo.classList.add('additional-info');
+
+  // const $vision = document.createElement('p');
+  // $vision.setAttribute('id', 'vision');
+
+  // const $visionImg = document.createElement('img');
+  // $visionImg.setAttribute('id', 'vision-img');
+
+  // $visionImg.src = `../images/elements/${character.element}.webp`;
+  // $vision.innerHTML += '<strong>Vision: </strong>' + character.element;
+  // $additionalInfo.appendChild($vision);
+  // $additionalInfo.appendChild($visionImg);
+  // $additionalInfos.appendChild($additionalInfo);
+
+  // $additionalInfo = document.createElement('div');
+  // $additionalInfo.classList.add('additional-info');
+  // const $weapon = document.createElement('p');
+  // $vision.setAttribute('id', 'weapon');
+
+  // const $weaponImg = document.createElement('img');
+  // $visionImg.setAttribute('id', 'weapon-img');
+
+  // $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
+  // $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
+  // $additionalInfo.appendChild($weapon);
+  // $additionalInfo.appendChild($weaponImg);
+  // $additionalInfos.appendChild($additionalInfo);
+
+  // $additionalInfo = document.createElement('div');
+  // $additionalInfo.classList.add('additional-info');
+
+  // const $nation = document.createElement('p');
+  // $nation.setAttribute('id', 'nation');
+
+  // const $nationImg = document.createElement('img');
+  // $nationImg.setAttribute('id', 'nation-img');
+
+  // $nationImg.src = `../images/nation-symbols/${character.nation}.webp`;
+  // $nation.innerHTML += '<strong>Nation: </strong>' + character.nation;
+  // $additionalInfo.appendChild($nation);
+  // $additionalInfo.appendChild($nationImg);
+  // $additionalInfos.appendChild($additionalInfo);
+
+  // const $ascensionMaterials = document.querySelector('#ascension-materials');
+  // const $ascensionMaterialsHeadline = document.createElement('p');
+  // $ascensionMaterialsHeadline.innerHTML = '<u>Ascension Materials</u>';
+  // $ascensionMaterials.appendChild($ascensionMaterialsHeadline);
+
+}
+
 function setView(newView, entry = null) {
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
@@ -342,6 +417,7 @@ function setView(newView, entry = null) {
 function cleanUp() {
   cleanUpCharacter();
   cleanUpEnemy();
+  cleanUpWeapon();
 }
 
 function cleanUpCharacter() {
@@ -351,7 +427,7 @@ function cleanUpCharacter() {
   const $skills = document.querySelector('#skills');
   $skills.innerHTML = '';
 
-  const $rarity = document.querySelector('#rarity');
+  const $rarity = document.querySelector('#character-rarity');
   $rarity.innerHTML = '';
 }
 
@@ -362,4 +438,15 @@ function cleanUpEnemy() {
   }
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   $enemyPortrait.src = '';
+}
+
+function cleanUpWeapon() {
+  const $additionalInfos = document.querySelector('#weapon-additional-infos');
+  $additionalInfos.innerHTML = '';
+
+  const $ascensionMaterials = document.querySelector('#ascension-materials');
+  $ascensionMaterials.innerHTML = '';
+
+  const $rarity = document.querySelector('#weapon-rarity');
+  $rarity.innerHTML = '';
 }

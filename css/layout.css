@@ -84,6 +84,11 @@ html {
   height: 20rem;
 }
 
+.portrait-flex-bottom {
+  display: flex;
+  align-items: center;
+}
+
 .portrait-img {
   height: 40rem;
   object-fit: cover;
