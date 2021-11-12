@@ -4,6 +4,8 @@
 
 html {
   min-width: 700px;
+  height: 100vh;
+  position: relative;
 }
 
 .container {
@@ -209,6 +211,23 @@ html {
 .material-img {
   width: 7rem;
   height: 7rem;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.home button {
+  margin-top: 2rem;
 }
 
 @media screen and (min-width: 1000px) {
