@@ -14,7 +14,8 @@ const viewLoader = {
   character: loadCharacter,
   enemies: loadAllEnemies,
   enemy: loadEnemy,
-  weapons: loadAllWeapons
+  weapons: loadAllWeapons,
+  weapon: loadWeapon
 };
 
 const singularToPlural = {
@@ -104,7 +105,7 @@ function loadCharacter(character = null) {
   const $characterPortrait = document.querySelector('#character-portrait');
   $characterPortrait.src = character.portraitImageURL;
 
-  const $rarity = document.querySelector('#rarity');
+  const $rarity = document.querySelector('#character-rarity');
   for (let i = 0; i < character.rarity; i++) {
     const $star = document.createElement('i');
     $star.classList.add('fas');
@@ -135,10 +136,10 @@ function loadCharacter(character = null) {
   $additionalInfo = document.createElement('div');
   $additionalInfo.classList.add('additional-info');
   const $weapon = document.createElement('p');
-  $vision.setAttribute('id', 'weapon');
+  $weapon.setAttribute('id', 'weapon');
 
   const $weaponImg = document.createElement('img');
-  $visionImg.setAttribute('id', 'weapon-img');
+  $weaponImg.setAttribute('id', 'weapon-img');
 
   $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
   $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
@@ -163,7 +164,7 @@ function loadCharacter(character = null) {
 
   const $skills = document.querySelector('#skills');
   const $skillsHeadline = document.createElement('p');
-  $skillsHeadline.innerHTML = '<u>Skills<u>';
+  $skillsHeadline.innerHTML = '<u>Skills</u>';
   $skills.appendChild($skillsHeadline);
 
   const iconPrefix = `https://res.cloudinary.com/dnoibyqq2/image/upload/v1617900084/genshin-app/characters/${character.name.toLowerCase()}/`;
@@ -292,11 +293,12 @@ function loadAllWeapons() {
     const $icons = document.querySelector('#weapon-icons');
     const weaponsObj = {};
     for (let weapon of weapons) {
-      if (weapon.baseAtk === 'TBA') {
+      if (!weapon.isReleased) {
         continue;
       }
       if (weapon.name === 'Freedom Sworn') {
-        weapon.name = 'Freedom-Sworn';
+        // weapon.name = 'Freedom-Sworn';
+        continue;
       }
       weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
       const $iconWrapper = generateIcon(weapon);
@@ -312,6 +314,149 @@ function loadAllWeapons() {
       setView('weapon', weaponsObj[curWeap]);
     });
   });
+}
+
+function loadWeapon(weapon = null) {
+  const $headline = document.querySelector('#weapon-name');
+  $headline.textContent = weapon.name;
+
+  const $weaponPortraitBg = document.querySelector('#weapon-portrait-bg');
+  $weaponPortraitBg.style.backgroundImage = 'url(../images/locations/weapons.jpg)';
+
+  const $weaponPortrait = document.querySelector('#weapon-portrait');
+  $weaponPortrait.src = weapon.iconUrl;
+
+  const $rarity = document.querySelector('#weapon-rarity');
+  for (let i = 0; i < weapon.rarity; i++) {
+    const $star = document.createElement('i');
+    $star.classList.add('fas');
+    $star.classList.add('fa-star');
+    $rarity.appendChild($star);
+  }
+
+  const $weaponDescription = document.querySelector('#weapon-description');
+  $weaponDescription.textContent = weapon.description;
+
+  const $additionalInfos = document.querySelector('#weapon-additional-infos');
+
+  let $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+
+  const $weaponType = document.createElement('p');
+  $weaponType.setAttribute('id', 'weapon-type');
+
+  const $weaponTypeImg = document.createElement('img');
+  $weaponTypeImg.setAttribute('id', 'weapon-type-img');
+
+  $weaponTypeImg.src = `../images/weapons/${weapon.weaponType}.png`;
+  $weaponType.innerHTML += '<strong>Weapon Type: </strong>' + weapon.weaponType;
+  $additionalInfo.appendChild($weaponType);
+  $additionalInfo.appendChild($weaponTypeImg);
+  $additionalInfos.appendChild($additionalInfo);
+
+  $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+  const $source = document.createElement('p');
+  $source.setAttribute('id', 'source');
+
+  const $sourceImgAcquiant = document.createElement('img');
+  $sourceImgAcquiant.setAttribute('id', 'source-acquaint-img');
+
+  const $sourceImgIntertwined = document.createElement('img');
+  $sourceImgIntertwined.setAttribute('id', 'source-intertwined-img');
+
+  $sourceImgAcquiant.src = '../images/fates/acquaint.webp';
+  $sourceImgIntertwined.src = '../images/fates/intertwined.webp';
+  switch (weapon.rarity) {
+    case 3:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgAcquiant);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+      break;
+    case 4:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgAcquiant);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+      break;
+    case 5:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+  }
+  $additionalInfos.appendChild($additionalInfo);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `https://genshin-app-api.herokuapp.com/api/weapons/info/${weapon.name === 'Freedom-Sworn' ? 'Freedom Sworn' : weapon.name}?infoDataSize=all`);
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    const weapon = this.response.payload.weapon;
+
+    const $ascensionMaterials = document.querySelector('#ascension-materials');
+    const $ascensionMaterialsHeadline = document.createElement('p');
+    $ascensionMaterialsHeadline.innerHTML = '<u>Ascension Materials</u>';
+    $ascensionMaterials.appendChild($ascensionMaterialsHeadline);
+
+    // first mat
+    const $materials = document.createElement('div');
+    $materials.classList.add('materials');
+
+    let $material = document.createElement('div');
+    $material.classList.add('material');
+
+    let $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    let i = weapon.ascensionEnemyDrops.length - 2;
+    $materialImg.src = weapon.ascensionEnemyDrops[i].iconUrl;
+
+    let $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionEnemyDrops[i].name;
+
+    // second mat
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    $material = document.createElement('div');
+    $material.classList.add('material');
+
+    $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    i = weapon.ascensionEnemyDrops.length - 1;
+    $materialImg.src = weapon.ascensionEnemyDrops[i].iconUrl;
+
+    $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionEnemyDrops[i].name;
+
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    // third mat
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    $material = document.createElement('div');
+    $material.classList.add('material');
+
+    $materialImg = document.createElement('img');
+    $materialImg.classList.add('material-img');
+    i = weapon.ascensionMaterials.length - 1;
+    $materialImg.src = weapon.ascensionMaterials[i].iconUrl;
+
+    $materialName = document.createElement('p');
+    $materialName.textContent = weapon.ascensionMaterials[i].name;
+
+    $material.appendChild($materialImg);
+    $material.appendChild($materialName);
+    $materials.appendChild($material);
+
+    $ascensionMaterials.appendChild($materials);
+  });
+
+  xhr.send();
 }
 
 function setView(newView, entry = null) {
@@ -342,6 +487,7 @@ function setView(newView, entry = null) {
 function cleanUp() {
   cleanUpCharacter();
   cleanUpEnemy();
+  cleanUpWeapon();
 }
 
 function cleanUpCharacter() {
@@ -351,7 +497,7 @@ function cleanUpCharacter() {
   const $skills = document.querySelector('#skills');
   $skills.innerHTML = '';
 
-  const $rarity = document.querySelector('#rarity');
+  const $rarity = document.querySelector('#character-rarity');
   $rarity.innerHTML = '';
 }
 
@@ -362,4 +508,15 @@ function cleanUpEnemy() {
   }
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   $enemyPortrait.src = '';
+}
+
+function cleanUpWeapon() {
+  const $additionalInfos = document.querySelector('#weapon-additional-infos');
+  $additionalInfos.innerHTML = '';
+
+  const $ascensionMaterials = document.querySelector('#ascension-materials');
+  $ascensionMaterials.innerHTML = '';
+
+  const $rarity = document.querySelector('#weapon-rarity');
+  $rarity.innerHTML = '';
 }

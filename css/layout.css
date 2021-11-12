@@ -84,6 +84,11 @@ html {
   height: 20rem;
 }
 
+.portrait-flex-bottom {
+  display: flex;
+  align-items: center;
+}
+
 .portrait-img {
   height: 40rem;
   object-fit: cover;
@@ -117,6 +122,24 @@ html {
   display: flex;
   justify-content: space-between;
   margin: 3rem auto;
+}
+
+#element {
+  padding: 0.5rem;
+}
+
+.additional-info p {
+  margin: 0;
+}
+
+.additional-info img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 0.25rem 0 0.25rem;
+}
+
+.skill p {
+  padding: 1rem;
 }
 
 .skills {
@@ -161,6 +184,33 @@ html {
   width: calc(100% / 3);
 }
 
+.ascension-materials {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.materials {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.material {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3rem;
+  margin: 0.2rem;
+  text-align: center;
+  width: calc(100%);
+}
+
+.material-img {
+  width: 7rem;
+  height: 7rem;
+}
+
 @media screen and (min-width: 1000px) {
   .container {
     max-width: 1920px;
@@ -185,5 +235,15 @@ html {
 
   .black-container {
     max-width: 1304px;
+  }
+
+  .material {
+    width: calc(100% / 3);
+  }
+
+  .materials {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
   }
 }
