@@ -469,6 +469,12 @@ function setView(newView, entry = null) {
       view.classList.add('hidden');
     }
   }
+  const $header = document.querySelector('header');
+  if (newView === 'home') {
+    $header.classList.remove('dark-nav');
+  } else {
+    $header.classList.add('dark-nav');
+  }
   const $navs = document.querySelectorAll('.nav');
   for (let nav of $navs) {
     if (newView === nav.getAttribute('data-view') || singularToPlural[newView] === nav.getAttribute('data-view')) {
