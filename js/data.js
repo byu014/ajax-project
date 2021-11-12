@@ -1,6 +1,6 @@
 /* exported data */
 let data = {
-  view: 'characters',
+  view: 'home',
   entry: null
 };
 const previousDataJSON = localStorage.getItem('archonic');

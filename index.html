@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="images/Site-favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="dark-nav">
     <div class="container">
       <div class="row">
         <div class="col-half logo">
@@ -42,6 +42,16 @@
   </header>
   <main>
     <div class="container">
+      <div class="view" data-view="home">
+        <div class="row">
+          <div class="col-full home">
+            <p class="big-title shadow heading">Archonic</p>
+            <p class="intro shadow">A Visual Introduction to Genshin Impact</p>
+            <button id="explore">Explore</button>
+          </div>
+        </div>
+      </div>
+
       <div class="view" data-view="characters">
           <div class="black-container">
             <div class="row">

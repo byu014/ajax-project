@@ -8,6 +8,11 @@ $navs.addEventListener('click', function (event) {
 
 });
 
+const $explore = document.querySelector('#explore');
+$explore.addEventListener('click', function () {
+  setView('characters');
+});
+
 // associates views with their respective loader functions
 const viewLoader = {
   characters: loadAllCharacters,
@@ -297,7 +302,6 @@ function loadAllWeapons() {
         continue;
       }
       if (weapon.name === 'Freedom Sworn') {
-        // weapon.name = 'Freedom-Sworn';
         continue;
       }
       weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
@@ -468,6 +472,12 @@ function setView(newView, entry = null) {
     } else {
       view.classList.add('hidden');
     }
+  }
+  const $header = document.querySelector('header');
+  if (newView === 'home') {
+    $header.classList.remove('dark-nav');
+  } else {
+    $header.classList.add('dark-nav');
   }
   const $navs = document.querySelectorAll('.nav');
   for (let nav of $navs) {
