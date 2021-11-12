@@ -49,7 +49,7 @@ img {
 }
 
 .active {
-  border-bottom: 1px solid white;
+  border-bottom: 2px solid white;
   color: white;
 }
 
@@ -73,13 +73,13 @@ img {
   overflow: hidden;
   width: 10rem;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-  transition: border 0.15s;
+  transition-property: border, box-shadow;
+  transition-duration: 0.15s;
 }
 
 .entry-name {
   background-color: black;
   text-align: center;
-  padding: 0.5rem 0.5rem;
 }
 
 .icon * {
@@ -163,16 +163,30 @@ img {
 }
 
 .nav:hover {
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.nav:active {
+  color: rgba(255, 255, 255, 1);
 }
 
 #explore:hover {
   box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.8);
 }
 
+#explore:active {
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.8);
+}
+
 .icon:hover {
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   cursor: pointer;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+}
+
+.icon:active {
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 1);
 }
 
 body::-webkit-scrollbar {
