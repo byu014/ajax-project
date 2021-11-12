@@ -39,11 +39,11 @@ img {
 }
 
 .shadow {
-  text-shadow: 2px 2px 6px black;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .box-shadow {
-  box-shadow: 2px 2px 6px black;
+  box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.4);
 }
 
 .active {
@@ -116,6 +116,7 @@ button {
   border: none;
   font-size: 1.5rem;
   padding: 1rem 8rem;
+  font-family: sans-serif;
 }
 
 #mondstadt-spawn {
