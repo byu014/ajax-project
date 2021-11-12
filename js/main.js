@@ -10,6 +10,7 @@ $navs.addEventListener('click', function (event) {
 
 const $explore = document.querySelector('#explore');
 $explore.addEventListener('click', function () {
+  event.preventDefault();
   setView('characters');
 });
 
