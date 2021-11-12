@@ -124,6 +124,24 @@ html {
   margin: 3rem auto;
 }
 
+#element {
+  padding: 0.5rem;
+}
+
+.additional-info p {
+  margin: 0;
+}
+
+.additional-info img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 0.25rem 0 0.25rem;
+}
+
+.skill p {
+  padding: 1rem;
+}
+
 .skills {
   display: flex;
   flex-direction: column;

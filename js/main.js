@@ -136,10 +136,10 @@ function loadCharacter(character = null) {
   $additionalInfo = document.createElement('div');
   $additionalInfo.classList.add('additional-info');
   const $weapon = document.createElement('p');
-  $vision.setAttribute('id', 'weapon');
+  $weapon.setAttribute('id', 'weapon');
 
   const $weaponImg = document.createElement('img');
-  $visionImg.setAttribute('id', 'weapon-img');
+  $weaponImg.setAttribute('id', 'weapon-img');
 
   $weaponImg.src = `../images/weapons/${character.weaponType}.png`;
   $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
@@ -293,7 +293,7 @@ function loadAllWeapons() {
     const $icons = document.querySelector('#weapon-icons');
     const weaponsObj = {};
     for (let weapon of weapons) {
-      if (weapon.baseAtk === 'TBA') {
+      if (!weapon.isReleased) {
         continue;
       }
       if (weapon.name === 'Freedom Sworn') {
@@ -336,22 +336,55 @@ function loadWeapon(weapon = null) {
   const $weaponDescription = document.querySelector('#weapon-description');
   $weaponDescription.textContent = weapon.description;
 
-  // const $additionalInfos = document.querySelector('#character-additional-infos');
+  const $additionalInfos = document.querySelector('#weapon-additional-infos');
 
-  // let $additionalInfo = document.createElement('div');
-  // $additionalInfo.classList.add('additional-info');
+  let $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
 
-  // const $vision = document.createElement('p');
-  // $vision.setAttribute('id', 'vision');
+  const $weaponType = document.createElement('p');
+  $weaponType.setAttribute('id', 'weapon-type');
 
-  // const $visionImg = document.createElement('img');
-  // $visionImg.setAttribute('id', 'vision-img');
+  const $weaponTypeImg = document.createElement('img');
+  $weaponTypeImg.setAttribute('id', 'weapon-type-img');
 
-  // $visionImg.src = `../images/elements/${character.element}.webp`;
-  // $vision.innerHTML += '<strong>Vision: </strong>' + character.element;
-  // $additionalInfo.appendChild($vision);
-  // $additionalInfo.appendChild($visionImg);
-  // $additionalInfos.appendChild($additionalInfo);
+  $weaponTypeImg.src = `../images/weapons/${weapon.weaponType}.png`;
+  $weaponType.innerHTML += '<strong>Weapon Type: </strong>' + weapon.weaponType;
+  $additionalInfo.appendChild($weaponType);
+  $additionalInfo.appendChild($weaponTypeImg);
+  $additionalInfos.appendChild($additionalInfo);
+
+  $additionalInfo = document.createElement('div');
+  $additionalInfo.classList.add('additional-info');
+  const $source = document.createElement('p');
+  $source.setAttribute('id', 'source');
+
+  const $sourceImgAcquiant = document.createElement('img');
+  $sourceImgAcquiant.setAttribute('id', 'source-acquaint-img');
+
+  const $sourceImgIntertwined = document.createElement('img');
+  $sourceImgIntertwined.setAttribute('id', 'source-intertwined-img');
+
+  $sourceImgAcquiant.src = '../images/fates/acquaint.webp';
+  $sourceImgIntertwined.src = '../images/fates/intertwined.webp';
+  switch (weapon.rarity) {
+    case 3:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgAcquiant);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+      break;
+    case 4:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgAcquiant);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+      break;
+    case 5:
+      $source.innerHTML += '<strong>Source: </strong>' + 'Limited';
+      $additionalInfo.appendChild($source);
+      $additionalInfo.appendChild($sourceImgIntertwined);
+  }
+  $additionalInfos.appendChild($additionalInfo);
 
   // $additionalInfo = document.createElement('div');
   // $additionalInfo.classList.add('additional-info');
