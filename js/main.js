@@ -302,7 +302,8 @@ function loadAllWeapons() {
       if (!weapon.isReleased) {
         continue;
       }
-      if (weapon.name === 'Freedom Sworn') {
+      if (weapon.name === 'Freedom Sworn' || weapon.name === 'Slingshot') {
+        // broken data
         continue;
       }
       weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
