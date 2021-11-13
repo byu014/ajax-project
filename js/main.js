@@ -14,6 +14,17 @@ $explore.addEventListener('click', function () {
   setView('characters');
 });
 
+const $skillModal = document.querySelector('#skill-modal');
+$skillModal.addEventListener('click', function () {
+  $skillModal.classList.add('hidden');
+});
+
+document.addEventListener('keydown', function (event) {
+  if (event.code === 'Escape') {
+    $skillModal.classList.add('hidden');
+  }
+});
+
 // associates views with their respective loader functions
 const viewLoader = {
   characters: loadAllCharacters,
@@ -193,11 +204,20 @@ function loadCharacter(character = null) {
 
     const $skillGIF = document.createElement('img');
     $skillGIF.classList.add('skill-gif');
-    if (!character.combatSkills[i].variants[0].gifUrl) {
+    if (character.name === 'Kazuha') {
+      character.combatSkills[i].variants[0].gifUrl = iconPrefix + character.combatSkills[i].variants[0].fileName;
+    } if (!character.combatSkills[i].variants[0].gifUrl) {
       $skillGIF.src = character.combatSkills[i].variants[1].gifUrl;
     } else {
       $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
     }
+    $skillGIF.addEventListener('click', function () {
+      const $skillGIFMax = document.querySelector('#skill-gif-max');
+      const $skillModal = document.querySelector('#skill-modal');
+      $skillModal.classList.remove('hidden');
+      $skillGIFMax.src = $skillGIF.src;
+    });
+
     $skill.appendChild($skillGIF);
     $skills.appendChild($skill);
   }

@@ -109,9 +109,38 @@ img {
   border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
+.skill-modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fa-times {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2rem;
+}
+
+.fa-times:hover {
+  color: white;
+  cursor: pointer;
+}
+
+#skill-gif-max {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0.5rem;
+}
+
 .skill-gif {
   border-radius: 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: border 0.3s;
+}
+
+.skill-gif:hover {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.skill-gif:active {
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 .skill {
