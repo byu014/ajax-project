@@ -4,7 +4,8 @@
 
 html {
   min-width: 700px;
-  height: 100vh;
+
+  /* height: 100vh; */
   position: relative;
 }
 
@@ -218,16 +219,7 @@ div.home {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* position: absolute; */
-
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0; */
-  padding-top: 10rem;
-
-  /* margin: auto; */
+  padding: 10rem 0;
   z-index: -1;
 }
 
