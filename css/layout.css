@@ -218,7 +218,6 @@ div.home {
   justify-content: center;
   align-items: center;
   padding: 30rem 0;
-  z-index: -1;
 }
 
 .skill-modal {
