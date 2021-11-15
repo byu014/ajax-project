@@ -486,6 +486,7 @@ function loadWeapon(weapon = null) {
 }
 
 function setView(newView, entry = null) {
+  window.scrollTo({ top: 0 });
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
     if (newView === view.getAttribute('data-view')) {
