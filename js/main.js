@@ -391,8 +391,12 @@ function loadWeapon(weapon = null) {
   const $sourceImgIntertwined = document.createElement('img');
   $sourceImgIntertwined.setAttribute('id', 'source-intertwined-img');
 
+  const $sourceSpecial = document.createElement('img');
+  $sourceSpecial.setAttribute('id', 'source-special-img');
+
   $sourceImgAcquiant.src = 'images/fates/acquaint.webp';
   $sourceImgIntertwined.src = 'images/fates/intertwined.webp';
+  $sourceSpecial.src = 'images/fates/special.webp';
   switch (weapon.rarity) {
     case 3:
       $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
@@ -401,10 +405,16 @@ function loadWeapon(weapon = null) {
       $additionalInfo.appendChild($sourceImgIntertwined);
       break;
     case 4:
-      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
-      $additionalInfo.appendChild($source);
-      $additionalInfo.appendChild($sourceImgAcquiant);
-      $additionalInfo.appendChild($sourceImgIntertwined);
+      if (weapon.source === 'Wish') {
+        $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+        $additionalInfo.appendChild($source);
+        $additionalInfo.appendChild($sourceImgAcquiant);
+        $additionalInfo.appendChild($sourceImgIntertwined);
+      } else {
+        $source.innerHTML += '<strong>Source: </strong>' + 'Event/Crafted/BP';
+        $additionalInfo.appendChild($source);
+        $additionalInfo.appendChild($sourceSpecial);
+      }
       break;
     case 5:
       $source.innerHTML += '<strong>Source: </strong>' + 'Limited';
