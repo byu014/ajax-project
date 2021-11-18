@@ -57,8 +57,8 @@ function generateIcon(entry) {
   $icon.style.background = `no-repeat url("images/rarity/${entry.rarity ? entry.rarity : 1}.webp")`;
   $icon.style.backgroundSize = '100% 100%';
   const $img = document.createElement('img');
+  $img.classList.add('icon-img');
   $img.src = entry.iconURL ? entry.iconURL : entry.iconUrl;
-  $img.style.width = '100%';
 
   const $entryName = document.createElement('p');
   $entryName.classList.add('entry-name');
@@ -83,6 +83,8 @@ function generateIcon(entry) {
 
 function loadAllCharacters() {
   const xhr = new XMLHttpRequest();
+  const $loading = document.querySelector('div[data-view="characters"] .lds-ripple');
+  $loading.classList.remove('hidden');
   xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/characters?infoDataSize=all');
   xhr.responseType = 'json';
   xhr.send();
@@ -103,10 +105,13 @@ function loadAllCharacters() {
       data.entry = charactersObj[curChar];
       setView('character', charactersObj[curChar]);
     });
+    $loading.classList.add('hidden');
   });
 }
 
 function loadCharacter(character = null) {
+  const $loading = document.querySelector('div[data-view="character"] .lds-ripple');
+  $loading.classList.remove('hidden');
   const $headline = document.querySelector('#character-name');
   $headline.textContent = character.name;
 
@@ -221,10 +226,13 @@ function loadCharacter(character = null) {
     $skill.appendChild($skillGIF);
     $skills.appendChild($skill);
   }
+  $loading.classList.add('hidden');
 }
 
 function loadAllEnemies() {
   const xhr = new XMLHttpRequest();
+  const $loading = document.querySelector('div[data-view="enemies"] .lds-ripple');
+  $loading.classList.remove('hidden');
   xhr.open('GET', 'https://api.genshin.dev/enemies/');
   xhr.responseType = 'json';
   xhr.send();
@@ -247,6 +255,7 @@ function loadAllEnemies() {
         const $iconWrapper = generateIcon(enemy);
         enemiesObj[enemy.name] = enemy;
         $icons.appendChild($iconWrapper);
+        $loading.classList.add('hidden');
       });
     }
     $icons.addEventListener('click', function (event) {
@@ -269,6 +278,8 @@ function loadEnemy(enemy = null) {
 
   const $enemyPortrait = document.querySelector('#enemy-portrait');
   const xhr = new XMLHttpRequest();
+  const $loading = document.querySelector('div[data-view="enemy"] .lds-ripple');
+  $loading.classList.remove('hidden');
   xhr.open('GET', `https://api.genshin.dev/enemies/${enemy.id}/portrait`);
   xhr.responseType = 'blob';
   xhr.send();
@@ -278,6 +289,7 @@ function loadEnemy(enemy = null) {
     } else {
       $enemyPortrait.src = `https://api.genshin.dev/enemies/${enemy.id}/icon`;
     }
+    $loading.classList.add('hidden');
   });
 
   const $enemyDescription = document.querySelector('#enemy-description');
@@ -311,6 +323,8 @@ function loadEnemy(enemy = null) {
 
 function loadAllWeapons() {
   const xhr = new XMLHttpRequest();
+  const $loading = document.querySelector('div[data-view="weapons"] .lds-ripple');
+  $loading.classList.remove('hidden');
   xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/weapons?infoDataSize=all');
   xhr.responseType = 'json';
   xhr.send();
@@ -339,6 +353,7 @@ function loadAllWeapons() {
       data.entry = weaponsObj[curWeap];
       setView('weapon', weaponsObj[curWeap]);
     });
+    $loading.classList.add('hidden');
   });
 }
 
@@ -424,6 +439,8 @@ function loadWeapon(weapon = null) {
   $additionalInfos.appendChild($additionalInfo);
 
   const xhr = new XMLHttpRequest();
+  const $loading = document.querySelector('div[data-view="weapon"] .lds-ripple');
+  $loading.classList.remove('hidden');
   xhr.open('GET', `https://genshin-app-api.herokuapp.com/api/weapons/info/${weapon.name === 'Freedom-Sworn' ? 'Freedom Sworn' : weapon.name}?infoDataSize=all`);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
@@ -490,6 +507,7 @@ function loadWeapon(weapon = null) {
     $materials.appendChild($material);
 
     $ascensionMaterials.appendChild($materials);
+    $loading.classList.add('hidden');
   });
 
   xhr.send();
@@ -497,6 +515,7 @@ function loadWeapon(weapon = null) {
 
 function setView(newView, entry = null) {
   window.scrollTo({ top: 0 });
+  const $loading = document.querySelector(`[data-view=${newView}] .lds-ripple`);
   const $views = document.querySelectorAll('.view');
   for (let view of $views) {
     if (newView === view.getAttribute('data-view')) {
