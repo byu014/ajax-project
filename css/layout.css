@@ -264,11 +264,15 @@ div.home {
 
 @media screen and (min-width: 768px) {
   .black-container {
-    max-width: 1060px;
+    max-width: 920px;
   }
 
   .container {
     max-width: 1200px;
+  }
+
+  .icon-wrapper {
+    padding: 0.8rem;
   }
 }
 
@@ -295,7 +299,7 @@ div.home {
   }
 
   .black-container {
-    max-width: 1304px;
+    max-width: 1260px;
   }
 
   .material {
@@ -306,5 +310,9 @@ div.home {
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+  }
+
+  .icon-wrapper {
+    padding: 1.5rem;
   }
 }
