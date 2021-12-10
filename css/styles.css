@@ -73,7 +73,7 @@ img {
   overflow: hidden;
   width: 10rem;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-  transition-property: border, box-shadow;
+  transition-property: border, box-shadow, transform;
   transition-duration: 0.15s;
 }
 
@@ -126,12 +126,14 @@ img {
 #skill-gif-max {
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 0.5rem;
+  user-select: none;
 }
 
 .skill-gif {
   border-radius: 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: border 0.3s;
+  transition-property: transform, border;
+  transition-duration: 0.15s;
 }
 
 .skill-gif:hover {
@@ -208,14 +210,17 @@ img {
 }
 
 .icon:hover {
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
   cursor: pointer;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
 }
 
 .icon:active {
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 2px solid rgba(255, 255, 255, 1);
   box-shadow: 2px 2px 7px rgba(0, 0, 0, 1);
+  transform: scale(1.02);
+  user-select: none;
 }
 
 body::-webkit-scrollbar {
