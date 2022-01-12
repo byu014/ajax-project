@@ -103,7 +103,14 @@ function loadAllCharacters() {
       data.entry = charactersObj[curChar];
       setView('character', charactersObj[curChar]);
     });
+    document.querySelectorAll('.characters-icons-spinner')[0].classList.add('hidden');
+    document.querySelectorAll('.characters-icons-spinner')[1].classList.add('hidden');
   });
+  xhr.onerror = function () {
+    document.querySelectorAll('.characters-icons-spinner')[0].classList.add('hidden');
+    document.querySelectorAll('.characters-icons-spinner')[1].classList.add('hidden');
+    document.querySelector('.characters-error').classList.remove('hidden');
+  };
 }
 
 function loadCharacter(character = null) {
@@ -247,6 +254,8 @@ function loadAllEnemies() {
         const $iconWrapper = generateIcon(enemy);
         enemiesObj[enemy.name] = enemy;
         $icons.appendChild($iconWrapper);
+        document.querySelectorAll('.enemies-icons-spinner')[0].classList.add('hidden');
+        document.querySelectorAll('.enemies-icons-spinner')[1].classList.add('hidden');
       });
     }
     $icons.addEventListener('click', function (event) {
@@ -258,6 +267,11 @@ function loadAllEnemies() {
       setView('enemy', enemiesObj[curEnemy]);
     });
   });
+  xhr.onerror = function () {
+    document.querySelectorAll('.enemies-icons-spinner')[0].classList.add('hidden');
+    document.querySelectorAll('.enemies-icons-spinner')[1].classList.add('hidden');
+    document.querySelector('.enemies-error').classList.remove('hidden');
+  };
 }
 
 function loadEnemy(enemy = null) {
@@ -339,7 +353,14 @@ function loadAllWeapons() {
       data.entry = weaponsObj[curWeap];
       setView('weapon', weaponsObj[curWeap]);
     });
+    document.querySelectorAll('.weapons-icons-spinner')[0].classList.add('hidden');
+    document.querySelectorAll('.weapons-icons-spinner')[1].classList.add('hidden');
   });
+  xhr.onerror = function () {
+    document.querySelectorAll('.weapons-icons-spinner')[0].classList.add('hidden');
+    document.querySelectorAll('.weapons-icons-spinner')[1].classList.add('hidden');
+    document.querySelector('.weapons-error').classList.remove('hidden');
+  };
 }
 
 function loadWeapon(weapon = null) {
