@@ -30,5 +30,8 @@ HTML, CSS, JavaScript
 ## Development
 
 ### Getting Started
-* clone the repo
-* open index.html
+1. clone the repo
+```shell
+git clone git@github.com:byu014/ajax-project.git
+```
+2. open index.html
