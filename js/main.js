@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 function generateIcon(entry) {
-  const $iconWrapper = document.createElement('div');
+  const $iconWrapper = document.createElement('a');
   $iconWrapper.classList.add('icon-wrapper');
 
   const $icon = document.createElement('div');
@@ -70,15 +70,6 @@ function generateIcon(entry) {
   $iconWrapper.appendChild($icon);
   return $iconWrapper;
 
-  // icon template
-  /*
-  <div class="icon-wrapper">
-    <div class="icon">
-      <img src="https://res.cloudinary.com/dnoibyqq2/image/upload/v1622044760/genshin-app/characters/albedo/icon.png" alt="">
-      <p class="character-name">Albedo</p>
-    </div>
-  </div>
-  */
 }
 
 function loadAllCharacters() {
