@@ -22,7 +22,7 @@ HTML, CSS, JavaScript
 
 ## Demo
 ![](https://i.imgur.com/WQmxJSU.gif)
-![](https://i.imgur.com/3APc1Vb.gif)
+![](https://i.imgur.com/XdoGdvL.gif)
 
 ## Stretch Features
 * User can search for content by name
