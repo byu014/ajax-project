@@ -1,6 +1,6 @@
 # Archonic
 
-A web application for gamers who want to browse information about Genshin Impact(game).
+A web application for anyone interested in games who want to browse information about Genshin Impact(game).
 
 ## Why I built this project
 I wanted to build a website that would give visual information about content from the game such as characters, enemies, and weapons.
@@ -9,7 +9,7 @@ I wanted to build a website that would give visual information about content fro
 https://byu014.github.io/ajax-project/
 
 ## Technologies
-HTML, CSS, JavaScript
+HTML, CSS, JavaScript, Genshin API, Genshin.dev API
 
 ## Features
 
