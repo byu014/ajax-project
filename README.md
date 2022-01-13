@@ -21,7 +21,7 @@ HTML, CSS, JavaScript
 6. User can view information on selected weapon
 
 ## Demo
-!(image)[https://i.imgur.com/awwaRRT.gif]
+![Imgur gif](https://i.imgur.com/awwaRRT.gif)
 
 ## Stretch Features
 * User can search for content by name
