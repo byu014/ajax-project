@@ -1,5 +1,5 @@
 # Archonic
-
+## Description
 A web application for gamers who want to browse information about Genshin Impact(game).
 
 ## Why I built this project
@@ -27,6 +27,6 @@ HTML, CSS, JavaScript
 ## Stretch Features
 * User can search for content by name
 
-## Installation
+## Getting Started
 * clone the repo
 * open index.html
