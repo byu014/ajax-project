@@ -22,6 +22,7 @@ HTML, CSS, JavaScript
 
 ## Demo
 ![Imgur](https://i.imgur.com/iOo2GFj.gif)
+
 ## Stretch Features
 * User can search for content by name
 
