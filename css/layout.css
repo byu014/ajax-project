@@ -162,6 +162,10 @@ html {
   align-items: center;
 }
 
+.weapon-stats {
+  display: flex;
+}
+
 .spawn-locations {
   display: flex;
   flex-direction: column;
