@@ -150,9 +150,14 @@ html {
   align-items: center;
 }
 
+.skill-icon-and-name {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+}
+
 .skill {
   width: 100%;
-  display: flex;
   justify-content: space-between;
   align-items: center;
 }
