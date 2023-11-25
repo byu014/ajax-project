@@ -346,21 +346,21 @@ function loadEnemy(enemy = null) {
 
 function loadAllWeapons() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/weapons?infoDataSize=all');
+  xhr.open('GET', 'https://api.genshin.dev/weapons');
   xhr.responseType = 'json';
   xhr.send();
-  xhr.addEventListener('load', function () {
-    const weapons = this.response.payload.weapons;
+  xhr.addEventListener('load', async function () {
+    const weaponNames = this.response;
     const $icons = document.querySelector('#weapon-icons');
     const weaponsObj = {};
+    const weapons = [];
+    for (let name of weaponNames) {
+      const response = await fetch(`https://api.genshin.dev/weapons/${name}`);
+      const weapon = (await response.json());
+      weapons.push(weapon);
+    }
+
     for (let weapon of weapons) {
-      if (!weapon.isReleased) {
-        continue;
-      }
-      if (weapon.name === 'Freedom Sworn' || weapon.name === 'Slingshot') {
-        // broken data
-        continue;
-      }
       weapon.iconUrl = `https://paimon.moe/images/weapons/${weapon.name.toLowerCase().split("'").join('').split(' ').join('_')}.png`;
       const $iconWrapper = generateIcon(weapon);
       weaponsObj[weapon.name] = weapon;
@@ -385,6 +385,7 @@ function loadAllWeapons() {
 }
 
 function loadWeapon(weapon = null) {
+  console.log(weapon);
   const $headline = document.querySelector('#weapon-name');
   $headline.textContent = weapon.name;
 
@@ -402,8 +403,14 @@ function loadWeapon(weapon = null) {
     $rarity.appendChild($star);
   }
 
+  const $weaponStats = document.querySelector('#weapon-stats');
+  const $weaponAtk = document.querySelector('#weapon-atk');
+  $weaponAtk.textContent = `Base Attack: ${weapon.baseAttack}`;
+  const $weaponSubstat = document.querySelector('#weapon-substat');
+  $weaponSubstat.textContent = `Substat: ${weapon.subStat}`;
+
   const $weaponDescription = document.querySelector('#weapon-description');
-  $weaponDescription.textContent = weapon.description;
+  $weaponDescription.textContent = weapon.passiveDesc;
 
   const $additionalInfos = document.querySelector('#weapon-additional-infos');
 
@@ -416,8 +423,8 @@ function loadWeapon(weapon = null) {
   const $weaponTypeImg = document.createElement('img');
   $weaponTypeImg.setAttribute('id', 'weapon-type-img');
 
-  $weaponTypeImg.src = `images/weapons/${weapon.weaponType}.png`;
-  $weaponType.innerHTML += '<strong>Weapon Type: </strong>' + weapon.weaponType;
+  $weaponTypeImg.src = `images/weapons/${weapon.type}.png`;
+  $weaponType.innerHTML += '<strong>Weapon Type: </strong>' + weapon.type;
   $additionalInfo.appendChild($weaponType);
   $additionalInfo.appendChild($weaponTypeImg);
   $additionalInfos.appendChild($additionalInfo);
@@ -441,27 +448,32 @@ function loadWeapon(weapon = null) {
   $sourceSpecial.src = 'images/fates/special.webp';
   switch (weapon.rarity) {
     case 3:
-      $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      $source.innerHTML += '<strong>Source: </strong>' + weapon.location;
       $additionalInfo.appendChild($source);
       $additionalInfo.appendChild($sourceImgAcquiant);
       $additionalInfo.appendChild($sourceImgIntertwined);
       break;
     case 4:
-      if (weapon.source === 'Wish') {
-        $source.innerHTML += '<strong>Source: </strong>' + 'Standard and Limited';
+      if (weapon.location === 'Gacha') {
+        $source.innerHTML += '<strong>Source: </strong>' + weapon.location;
         $additionalInfo.appendChild($source);
         $additionalInfo.appendChild($sourceImgAcquiant);
         $additionalInfo.appendChild($sourceImgIntertwined);
       } else {
-        $source.innerHTML += '<strong>Source: </strong>' + 'Event/Crafted/BP';
+        $source.innerHTML += '<strong>Source: </strong>' + weapon.location;
         $additionalInfo.appendChild($source);
         $additionalInfo.appendChild($sourceSpecial);
       }
       break;
     case 5:
-      $source.innerHTML += '<strong>Source: </strong>' + 'Limited';
+      $source.innerHTML += '<strong>Source: </strong>' + weapon.location;
       $additionalInfo.appendChild($source);
       $additionalInfo.appendChild($sourceImgIntertwined);
+      break;
+    default:
+      $source.innerHTML += '<strong>Source: </strong>' + weapon.location;
+      $additionalInfo.appendChild($source);
+      break;
   }
   $additionalInfos.appendChild($additionalInfo);
 
