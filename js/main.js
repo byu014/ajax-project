@@ -72,16 +72,59 @@ function generateIcon(entry) {
 
 }
 
+// deprecated due to nonfunctioning api
+// function loadAllCharacters() {
+//   const xhr = new XMLHttpRequest();
+//   xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/characters?infoDataSize=all');
+//   xhr.responseType = 'json';
+//   xhr.send();
+//   xhr.addEventListener('load', function () {
+//     const characters = this.response.payload.characters;
+//     const $icons = document.querySelector('#character-icons');
+//     const charactersObj = {};
+//     for (let character of characters) {
+//       const $iconWrapper = generateIcon(character);
+//       charactersObj[character.name] = character;
+//       $icons.appendChild($iconWrapper);
+//     }
+//     $icons.addEventListener('click', function (event) {
+//       if (!event.target.matches('.icon')) {
+//         return;
+//       }
+//       const curChar = event.target.getAttribute('data-entry-name');
+//       data.entry = charactersObj[curChar];
+//       setView('character', charactersObj[curChar]);
+//     });
+//     document.querySelectorAll('.characters-icons-spinner')[0].classList.add('hidden');
+//     document.querySelectorAll('.characters-icons-spinner')[1].classList.add('hidden');
+//   });
+//   xhr.onerror = function () {
+//     document.querySelectorAll('.characters-icons-spinner')[0].classList.add('hidden');
+//     document.querySelectorAll('.characters-icons-spinner')[1].classList.add('hidden');
+//     document.querySelector('.characters-error').classList.remove('hidden');
+//   };
+// }
+
 function loadAllCharacters() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://genshin-app-api.herokuapp.com/api/characters?infoDataSize=all');
+  xhr.open('GET', 'https://api.genshin.dev/characters');
   xhr.responseType = 'json';
   xhr.send();
-  xhr.addEventListener('load', function () {
-    const characters = this.response.payload.characters;
+  xhr.addEventListener('load', async function () {
+    const characterNames = this.response;
+    const characters = [];
+    for (let name of characterNames) {
+      const response = await fetch(`https://api.genshin.dev/characters/${name}`);
+      const character = (await response.json());
+      characters.push(character);
+    }
     const $icons = document.querySelector('#character-icons');
     const charactersObj = {};
     for (let character of characters) {
+      if (character.name === 'Traveler') {
+        continue;
+      }
+      character.iconUrl = `https://paimon.moe/images/characters/${character.name === 'Ayato' ? 'kamisato_ayato' : character.name.split(' ').join('_').toLowerCase()}.png`;
       const $iconWrapper = generateIcon(character);
       charactersObj[character.name] = character;
       $icons.appendChild($iconWrapper);
@@ -104,12 +147,12 @@ function loadAllCharacters() {
   };
 }
 
-function loadCharacter(character = null) {
+async function loadCharacter(character = null) {
   const $headline = document.querySelector('#character-name');
   $headline.textContent = character.name;
 
   const $element = document.querySelector('#element');
-  $element.src = `images/elements/${character.element}.webp`;
+  $element.src = `images/elements/${character.vision}.webp`;
 
   if (!character.nation) {
     character.nation = 'Unknown';
@@ -117,8 +160,9 @@ function loadCharacter(character = null) {
   const $characterPortraitBg = document.querySelector('#character-portrait-bg');
   $characterPortraitBg.style.backgroundImage = `url("images/locations/${character.nation}.jpg")`;
 
+  const nameForFileAccess = character.name === 'Ayato' ? 'kamisato_ayato' : character.name.split(' ').join('_').toLowerCase();
   const $characterPortrait = document.querySelector('#character-portrait');
-  $characterPortrait.src = character.portraitImageURL;
+  $characterPortrait.src = `https://paimon.moe/images/characters/full/${nameForFileAccess}.png`;
 
   const $rarity = document.querySelector('#character-rarity');
   for (let i = 0; i < character.rarity; i++) {
@@ -142,8 +186,8 @@ function loadCharacter(character = null) {
   const $visionImg = document.createElement('img');
   $visionImg.setAttribute('id', 'vision-img');
 
-  $visionImg.src = `images/elements/${character.element}.webp`;
-  $vision.innerHTML += '<strong>Vision: </strong>' + character.element;
+  $visionImg.src = `images/elements/${character.vision}.webp`;
+  $vision.innerHTML += '<strong>Vision: </strong>' + character.vision;
   $additionalInfo.appendChild($vision);
   $additionalInfo.appendChild($visionImg);
   $additionalInfos.appendChild($additionalInfo);
@@ -156,8 +200,8 @@ function loadCharacter(character = null) {
   const $weaponImg = document.createElement('img');
   $weaponImg.setAttribute('id', 'weapon-img');
 
-  $weaponImg.src = `images/weapons/${character.weaponType}.png`;
-  $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weaponType;
+  $weaponImg.src = `images/weapons/${character.weapon}.png`;
+  $weapon.innerHTML += '<strong>Weapon: </strong>' + character.weapon;
   $additionalInfo.appendChild($weapon);
   $additionalInfo.appendChild($weaponImg);
   $additionalInfos.appendChild($additionalInfo);
@@ -182,41 +226,27 @@ function loadCharacter(character = null) {
   $skillsHeadline.innerHTML = '<u>Skills</u>';
   $skills.appendChild($skillsHeadline);
 
-  const iconPrefix = `https://res.cloudinary.com/dnoibyqq2/image/upload/v1617900084/genshin-app/characters/${character.name.toLowerCase()}/`;
-  for (let i = 0; i < character.combatSkills.length; i++) {
+  const iconPrefix = `https://paimon.moe/images/skills/${nameForFileAccess}/`;
+  for (let i = 0; i < character.skillTalents.length; i++) {
     const $skill = document.createElement('div');
     $skill.classList.add('skill');
 
+    const $skillIconAndName = document.createElement('div');
+    $skillIconAndName.classList.add('skill-icon-and-name');
     const $skillImg = document.createElement('img');
     $skillImg.classList.add('skill-img');
-    $skillImg.src = iconPrefix + character.combatSkills[i].iconUrl;
-    $skill.appendChild($skillImg);
+    $skillImg.src = iconPrefix + `talent_${i + 1}.png`;
+    const $skillName = document.createElement('span');
+    $skillName.classList.add('skill-name');
+    $skillName.innerHTML = `${character.skillTalents[i].name}`;
+    $skillIconAndName.appendChild($skillImg);
+    $skillIconAndName.appendChild($skillName);
+    $skill.appendChild($skillIconAndName);
 
     const $skillDescription = document.createElement('p');
-    if (!character.combatSkills[i].variants[0].description) {
-      $skillDescription.textContent = character.combatSkills[i].variants[1].description;
-    } else {
-      $skillDescription.textContent = character.combatSkills[i].variants[0].description;
-    }
+    $skillDescription.textContent = character.skillTalents[i].description;
     $skill.appendChild($skillDescription);
 
-    const $skillGIF = document.createElement('img');
-    $skillGIF.classList.add('skill-gif');
-    if (character.name === 'Kazuha') {
-      character.combatSkills[i].variants[0].gifUrl = iconPrefix + character.combatSkills[i].variants[0].fileName;
-    } if (!character.combatSkills[i].variants[0].gifUrl) {
-      $skillGIF.src = character.combatSkills[i].variants[1].gifUrl;
-    } else {
-      $skillGIF.src = character.combatSkills[i].variants[0].gifUrl;
-    }
-    $skillGIF.addEventListener('click', function () {
-      const $skillGIFMax = document.querySelector('#skill-gif-max');
-      const $skillModal = document.querySelector('#skill-modal');
-      $skillModal.classList.remove('hidden');
-      $skillGIFMax.src = $skillGIF.src;
-    });
-
-    $skill.appendChild($skillGIF);
     $skills.appendChild($skill);
   }
 }
