@@ -123,6 +123,10 @@ img {
   cursor: pointer;
 }
 
+.weapon-atk {
+  padding-right: 20px;
+}
+
 #skill-gif-max {
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 0.5rem;
