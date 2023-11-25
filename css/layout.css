@@ -300,6 +300,7 @@ div.home {
   .additional-infos {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 3rem auto;
   }
 }
